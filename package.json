@@ -1,0 +1,22 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "description": "\"Project for Geosoftware 1 task 6\"",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaxiElfers/Geosoftware1Lena-Maxi.git"
+  },
+  "author": "Maximilian Elfers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaxiElfers/Geosoftware1Lena-Maxi/issues"
+  },
+  "homepage": "https://github.com/MaxiElfers/Geosoftware1Lena-Maxi#readme",
+  "dependencies": {
+    "mongodb": "^4.7.0"
+  }
+}
