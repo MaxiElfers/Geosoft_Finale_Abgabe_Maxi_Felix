@@ -1,46 +1,94 @@
-var express = require('express');
-var router = express.Router();
-const { MongoClient } = require('mongodb')
+//declaration of global variables
+let count = 0;
+let data = []; // the data that is later gonna be posted as an string
+let newMarker; // new Marker for the data
+let newID; // new ID for the data
+let newName; // new Name for the data
 
-const url = 'mongodb://localhost:27017' // connection URL
-const client = new MongoClient(url) // mongodb client
-const dbName = 'mydatabase' // database name
-const collectionName = 'pois' // collection name
+//list of all EventListeners
+document.getElementById("SubmitButton").addEventListener("click",function(){getValues(); window.location = "AddedPoi.html"});
 
+// setting up and working with the map
+var map = L.map('map').setView([51.96, 7.63], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+var greenIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  });
+var drawnItems = new L.FeatureGroup();
+map.addLayer(drawnItems);
+var drawControl = new L.Control.Draw({
+    draw: {
+        circlemarker: false,
+        circle: false,
+        polyline: false,
+        polygon: false,
+        rectangle: false
+    },
+    edit: {
+        featureGroup: drawnItems,
+        remove: false,
+        edit: false
+    }
+});
+map.addControl(drawControl);
 
-/* define the search route : retrieve all elements from the database and use it as input for autocomplete */
-router.get('/', function (req, res, next) 
-{
+/**
+ * handles the draw event for a marker
+ */
+map.on(L.Draw.Event.CREATED, function (e) {
+    newMarker = [e.layer._latlng.lat, e.layer._latlng.lng];
+    var nMarker = new L.Marker([e.layer._latlng.lat, e.layer._latlng.lng]);
+    nMarker.addTo(map);
+});
 
-  retrieveAllPOIsfromDB(client, dbName, collectionName, res)
-        .then(console.log)
-        .catch(console.error)
-        .finally(() => setTimeout(() => {client.close()}, 1500)) // wait a bit before closing the connection, if not the whole code can raise an error, see https://stackoverflow.com/questions/72155712/mongoruntimeerror-connection-pool-closed
-
-})
-
-// retrieve all elements from the database, and pass the results as input data for the search page
-async function retrieveAllPOIsfromDB(client, dbName, collectionName, res) 
-{
-
-  await client.connect()
-  console.log('Connected successfully to server')
-
-  const db = client.db(dbName)
-
-  const collection = db.collection(collectionName)
-
-  const cursor =  collection.find({})
-   
-  const results = await cursor.toArray()
-
-  // get the geojson object (because toArray has generated an array)
-  console.log(results[0])
-
-  // pass the results data as input for the search page
-  res.render('search', { title: 'Searching Page', data: results[0] });
-  
+/**
+ * takes the values out of the input and starts the fetch post function
+ */
+function getValues(){
+  newName = document.getElementById("NameDiv").value;
+  newID = document.getElementById("IDDiv").value;
+  if(newName === "" || newID === ""){
+    console.log("Nicht alle Felder wurden ausgefüllt")
+    document.getElementById("FehlerDiv").style.display = "block";
+  }
+  else{
+    data = {
+      "type": "Feature",
+      "properties": {
+        "shape": "Marker",
+        "name": newName,
+        "category": "default"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          newMarker[1],
+          newMarker[0]
+        ]
+      },
+      "id": newID
+    };
+    postMarker(data);
+  }
 }
 
-
-module.exports = router;
+/**
+ * Creates an fetch to post the new Marker
+ */
+ function postMarker(doc){
+  if(count === 0){
+    fetch("/addPoi",
+    {
+      headers: {'Content-Type': 'application/json'},
+      method: "post",
+      body: JSON.stringify(doc)
+    })
+  }
+};

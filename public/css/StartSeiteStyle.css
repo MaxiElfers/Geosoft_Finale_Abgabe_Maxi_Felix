@@ -18,5 +18,9 @@ h1{
     margin: 0px;
     position: absolute;
 }
+#AddSuccessfull{
+    color: yellowgreen;
+    font-size: 1.7em;
+}
 
 

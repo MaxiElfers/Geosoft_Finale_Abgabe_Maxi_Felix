@@ -3,9 +3,11 @@ let pois;
 let aktPOIs;
 let allPOIs = [];
 var click; // only for counting if the marker where set once or not
+let id;
 
 // declaration of event listener
-document.getElementById("SubmitButton").addEventListener("click", function(){displayAllPOIs()});
+document.getElementById("SubmitButton").addEventListener("click", function(){getValue(); location.reload()});
+
 
 // fetch POIs
 fetch("/getPoi")
@@ -33,12 +35,13 @@ var greenIcon = new L.Icon({
   });
 
 /**
- * Displays all POIs on the Map
+ * Displays all stops on the map and saves the marker in an Array
  */
-function displayAllPOIs(){
+setTimeout(function displayAllPOIs(){
     if(click === 0){
         for(var i = 0; i < pois.length; i++){
             var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
+                .bindPopup(pois[i].properties.name + "<br>" + "id: " + pois[i].id)
             allPOIs[i] = marker;
             marker.addTo(map);
         }
@@ -51,4 +54,26 @@ function displayAllPOIs(){
         click = 0;
         displayAllPOIs();
     }
+}, 2000)
+
+document.onload = displayAllPOIs();
+
+/**
+ * get the value of the IDDiv and start the fetch (delete)
+ */
+function getValue(){
+    id = {"id": document.getElementById("IDDiv").value};
+    deletePOIs();
+}
+
+/**
+ * fetch (deletes) the choosen POI
+ */
+function deletePOIs(){
+ fetch("/deletePoi",
+ {
+   headers: {'Content-Type': 'application/json'},
+   method: "delete",
+   body: JSON.stringify(id)
+ })
 }
