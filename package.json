@@ -4,7 +4,7 @@
   "description": "\"Project for Geosoftware 1 task 6\"",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MaxiElfers/Geosoftware1Lena-Maxi#readme",
   "dependencies": {
+    "express": "^4.18.1",
     "mongodb": "^4.7.0"
   }
 }
