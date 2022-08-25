@@ -4,6 +4,9 @@ const path = require('path')
 const app = express()
 const port = 3000
 
+var bodyParser = require('body-parser')
+var jsonParser = bodyParser.json()
+app.use(jsonParser);
 
 const { MongoClient } = require('mongodb')
 
@@ -13,7 +16,7 @@ const client = new MongoClient(url) // mongodb client
    
 const dbName = 'mydatabase' // database name
    
-const collectionName = 'pois' // collection name
+const collectionName = 'pois' // collection name  
 
 // rendering static files 
 app.use(express.static('public'))
@@ -42,6 +45,7 @@ app.get('/delete', (req, res) =>
   res.sendFile(path.join(__dirname, '/public', 'Delete.html'))
 })
 
+// Path definition for the fetch
 app.get('/getPoi', (req, res) =>
 {
   getPOIs(req, res)
@@ -50,9 +54,21 @@ app.get('/getPoi', (req, res) =>
        .finally(() => setTimeout(() => {client.close()}, 1500))
 })
 
-app.get('/addPoi', (req, res) =>
-{
+// Path definition for the fetch post
+app.post('/addPoi', function(req, res, next)
+{  
+  addPOIs(req.body)
+       .catch(console.error)
+       .finally(() => setTimeout(() => {client.close()}, 1500))
+})
 
+// Path definition for the fetch delete
+app.delete('/deletePoi', function(req, res)
+{
+  console.log(req.body)
+  deletePOIs(req.body)
+       .catch(console.error)
+       .finally(() => setTimeout(() => {client.close()}, 1500))
 })
 
 app.listen(port, () => 
@@ -60,7 +76,11 @@ app.listen(port, () =>
   console.log(`App listening at http://localhost:${port}`)
 })
 
-
+/**
+ * pulls all the POIs from the database
+ * @param  req 
+ * @param  res 
+ */
 async function getPOIs(req, res)
 {
   await client.connect()
@@ -69,9 +89,9 @@ async function getPOIs(req, res)
   const collection = db.collection(collectionName)
 
   const cursor =  collection.find({})
-   
+
   const results = await cursor.toArray()
-      
+
   if (results.length == 0)
   {
    
@@ -83,4 +103,35 @@ async function getPOIs(req, res)
     console.log(`Found ${results.length} documents in the collection...`);
     res.send(results);
   }
+}
+
+/**
+ * Adds the data to the database
+ * @param {Object} data 
+ */
+async function addPOIs(data) 
+{
+  await client.connect()
+  console.log('Connected successfully to server')
+   
+  const db = client.db(dbName)
+   
+  const collection = db.collection(collectionName)
+
+  await collection.insertOne(data) //function to insert one object
+  console.log("Marker added successfuly")
+}
+
+/**
+ * deletes the object from the database
+ * @param {object} data 
+ */
+async function deletePOIs(data){
+  await client.connect()
+  console.log('Connected successfully to server')
+  const db = client.db(dbName)
+   
+  const collection = db.collection(collectionName)
+
+  collection.deleteOne({"id" : data.id}) // function to delete the object with the id given from the database
 }
