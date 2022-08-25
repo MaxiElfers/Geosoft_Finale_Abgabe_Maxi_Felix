@@ -1,0 +1,57 @@
+.button{
+    background-color: yellowgreen;
+    color:white;
+    border: none;
+    text-align: center;
+    padding: 15px 32px;
+    cursor: pointer;
+    font-size: large;
+}
+p{
+    color: rgb(49, 46, 46);
+    text-align: center;
+    font-size:x-large;
+}
+h1{
+    color: yellowgreen;
+    text-align: center;
+}
+#EingabeDiv{
+    font-size: large;
+    color: rgb(49, 46, 46);
+    text-align: center;
+}
+#IFGIimg{
+    height: 100px;
+    float: right;
+    border: 0px;
+    margin: 0px;
+    position: absolute;
+}
+.container-main #SubmitButtonDiv{
+    text-align: center;
+    margin: 10px;
+}
+.container-main #NameDiv, .container-main #IDDiv{
+    margin: 10px;
+    background-color: yellowgreen;
+    color: white;
+    font-size: 2em;
+}
+#map { 
+    height: 400px;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 15px; 
+    text-align: center;
+}
+span.Eingabe{
+    color: yellowgreen;
+    font-size: 1.5em;
+}
+#FehlerDiv{
+    text-align: center;
+    color: red;
+    display: none;
+}
