@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,27 +9,66 @@
     <link rel="stylesheet" href="css/AddStyle.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
         integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
-        crossorigin=""/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css"
+        integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
         integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
         crossorigin=""></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"
+        integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
 </head>
-    <body>
-        <img id="IFGIimg" src="https://digitalautonomy.net/fileadmin/_processed_/d/4/csm_1623743845_DAH_Logo_ifgi_long_2b4c356743.png"></img>
-        <h1>You can add POIs to the database</h1>
 
-        <div class="container-main">
-            <div id="map"></div>
+<body>
+    <img id="IFGIimg"
+        src="https://digitalautonomy.net/fileadmin/_processed_/d/4/csm_1623743845_DAH_Logo_ifgi_long_2b4c356743.png"></img>
+    <h1>You can add POIs to the database.</h1>
+    <h1>Draw into the map and add Name and Id, then submit. </h1>
+    <h1>Or you can use the Geojson Textarea as an input.</h1>
 
-            <div id="EingabeDiv">Enter the <span class="Eingabe">Name</span> of the POI here: <input id="NameDiv" type="text"></div>
-            <div id="EingabeDiv">Enter the <span class="Eingabe">ID</span> of the POI here: <input id="IDDiv" type="text"></div>
-            <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Add Point-of-Interest"></div>
-            <div id="FehlerDiv">Sorry, you first need to fill out all inputs!!!</div>
+
+
+    <div class="container-main">
+        <div id="map"></div>
+        <!-- Einbinden des Textfeldes für das GeoJSON-->
+        <div id="data">
+            <textarea id="geojsontextarea"></textarea>
         </div>
-    
+
+        <div id="EingabeDiv">Enter the <span class="Eingabe">Name</span> of the Mountain here: <input id="NameDiv"
+                type="text"></div>
+        <div id="EingabeDiv">Enter the <span class="Eingabe">Altitude</span> of the Mountain here: <input id="AltitudeDiv" type="text">
+        </div>
+        <div id="EingabeDiv">Enter the <span class="Eingabe">URL</span> of the Mountain here: <input id="URLDiv" type="text">
+        </div>
+    </div>
+
+
+    <p>Input in GeoJSON-format:
+        <input type="text" name="textfeld" id="textfeld"></input>
+    </p>
+
+
+    <!-- Einbinden des Bestaetigungsfeldes-->
+    <script>
+        let element = document.getElementById("onclickevent");
+    </script>
+
+
+    <!-- Einbinden des Browserstandorts-->
+    <p>Click here to read in your personal Browser-Coordinates: <button onclick="getLocation()">Try It</button> </p>
+    <p id="demo"></p>
+
+    <div class="container-main">
+    <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Add Point-of-Interest">
+    </div>
+    <div id="FehlerDiv">Sorry, you first need to fill out all inputs!!!</div>
+    </div>
+
     <script src=js/Add.js></script>
-    </body>
+</body>
+
 </html>
