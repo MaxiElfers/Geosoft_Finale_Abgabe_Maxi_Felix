@@ -21,7 +21,7 @@ fetch("/getPoi")
     .catch(error => console.log(error))
 
 // setting up and working with the map
-var map = L.map('map').setView([51.96, 7.63], 12);
+var map = L.map('map').setView([51.96, 7.63], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);

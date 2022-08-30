@@ -22,5 +22,12 @@ h1{
     color: yellowgreen;
     font-size: 1.7em;
 }
+elem{
+    color: yellowgreen;
+    font-size: xx-large;
+}
+elem:hover{
+    cursor: pointer;
+}
 
 

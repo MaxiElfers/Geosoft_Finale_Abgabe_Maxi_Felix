@@ -19,7 +19,7 @@ fetch("/getPoi")
     .catch(error => console.log(error))
 
 // setting up and working with the map
-var map = L.map('map').setView([51.96, 7.63], 12);
+var map = L.map('map').setView([51.96, 7.63], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
@@ -39,6 +39,7 @@ function displayAllPOIs(){
     if(click === 0){
         for(var i = 0; i < pois.length; i++){
             var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
+            marker.bindPopup("<table><tr><td>Cell 1</td><td>Cell 2</td></tr></table>");
             allPOIs[i] = marker;
             marker.addTo(map);
         }
