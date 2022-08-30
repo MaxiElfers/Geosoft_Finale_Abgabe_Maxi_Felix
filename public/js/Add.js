@@ -3,10 +3,7 @@ let count = 0;
 let data = []; // the data that is later gonna be posted as an string
 let newID; // new ID for the data
 let newName; // new Name for the data
-let gezeichnetesPolygon = [];
 
-//list of all EventListeners
-document.getElementById("SubmitButton").addEventListener("click", function () { getValues(); window.location = "AddedPoi.html" });
 
 // setting up and working with the map
 var map = L.map('map').setView([51.96, 7.63], 5);
@@ -54,47 +51,62 @@ map.on("draw:edited", function (event) {
 /**
 * generiert ein GeoJSON aus dem gezeichneten Polygon und speichert die Koordinaten in einem Array
 */
-function updateText() {
+let gezeichnetesPolygon = [];
+var newType;
 
+function updateText() {
   // to convert L.featureGroup to GeoJSON FeatureCollection
   document.getElementById("geojsontextarea").value = JSON.stringify(drawnItems.toGeoJSON());
   var gezeichnetesGeojson = drawnItems.toGeoJSON();
+  console.log(gezeichnetesGeojson);
   gezeichnetesGeojson.features.forEach(element1 => {
+    newType = element1.geometry.type;
     element1.geometry.coordinates.forEach(element2 => {
       gezeichnetesPolygon.push(element2);
     })
   })
-  console.log(gezeichnetesPolygon);
 }
 
-function PointOrPolygon() {
-  if (gezeichnetesPolygon.length = 0) {
-    console.log("Nicht alle Felder wurden ausgefüllt")
-    document.getElementById("FehlerDiv").style.display = "block";
-  }
-  if (gezeichnetesPolygon.length = 1) return "Point"
-  else return "Polygon";
-}
 
 var snippet;
 /**
  * takes the values out of the input and starts the fetch post function
  */
 function getValues() {
+
+  //console.log(document.getElementById("textfeld").value);
+  if(document.getElementById("geojsontextarea").value === "" && document.getElementById("textfeld").value !== "") {
+    document.getElementById("geojsontextarea").value = document.getElementById("textfeld").value;
+    //console.log(document.getElementById("geojsontextarea").value);
+    var gezeichnetesGeojson = document.getElementById("geojsontextarea").value;
+    gezeichnetesGeojson = JSON.parse(gezeichnetesGeojson);
+    console.log(gezeichnetesGeojson);
+    gezeichnetesGeojson.features.forEach(element1 => {
+      newType = element1.geometry.type;
+      element1.geometry.coordinates.forEach(element2 => {
+        gezeichnetesPolygon.push(element2);
+      })
+    })
+  }
+
+  //console.log(gezeichnetesPolygon);
   newName = document.getElementById("NameDiv").value;
   newAltitude = document.getElementById("AltitudeDiv").value;
   newURL = document.getElementById("URLDiv").value;
-  if (newName === "" || newAltitude === "" || newURL === "") {
+  if (newName === "" || newAltitude === "" || newURL === "" || gezeichnetesPolygon === null) {
     console.log("Nicht alle Felder wurden ausgefüllt")
     document.getElementById("FehlerDiv").style.display = "block";
   }
   else {
+    // teste, ob es eine Wikipedia URL ist
     if (newURL.startsWith("https://en.wikipedia.org/wiki/") || newURL.startsWith("https://de.wikipedia.org/wiki/")) {
+      // Anfrage an die Wikipedia API zusammenbauen
       newURL.substr(30, newURL.length - 30)
       while (newURL.includes("_")) {
         newURL.replace("_", "%20");
       }
       anfrage = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=" + newURL;
+      console.log(anfrage);
 
       // Erstellen eines XHR-Objektes für die Anfrage des Wikipedia Artikels
       var xhr = new XMLHttpRequest()
@@ -121,10 +133,8 @@ function getValues() {
     data = {
       "type": "Feature",
       "geometry": {
-        "type": PointOrPolygon(),
-        "coordinates": [
-          gezeichnetesPolygon
-        ]
+        "type": newType,
+        "coordinates": gezeichnetesPolygon
       },
       "properties": {
         "name": newName,
@@ -181,15 +191,20 @@ function showPosition(position) {
 
   // GeoJSON "Rahmenelement"
   let geojson = {
-    "type": "Feature",
-    "properties": {},
-    "geometry": {
-      "type": "Point",
-      "coordinates": []
-    },
-    "id": "1f1c1e76-de1e-4bf5-b927-0a0bdb59a10e"
+    "type":"FeatureCollection",
+    "features":[{
+      "type":"Feature",
+      "properties":{},
+      "geometry":{
+        "type":"Point",
+        "coordinates":[]
+      }
+    }]
   }
 
-  geojson.geometry.coordinates = [position.coords.longitude, position.coords.latitude]
+  geojson.features[0].geometry.coordinates = [position.coords.longitude, position.coords.latitude];
   document.getElementById("textfeld").value = JSON.stringify(geojson);
 }
+
+//list of all EventListeners
+document.getElementById("SubmitButton").addEventListener("click", function () { getValues(); /**window.location = "AddedPoi.html" */ });

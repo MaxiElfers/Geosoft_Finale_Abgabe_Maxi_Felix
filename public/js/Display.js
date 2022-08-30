@@ -5,7 +5,7 @@ let allPOIs = [];
 var click; // only for counting if the marker where set once or not
 
 // declaration of event listener
-document.getElementById("SubmitButton").addEventListener("click", function(){displayAllPOIs()});
+document.getElementById("SubmitButton").addEventListener("click", function () { displayAllPOIs() });
 
 // fetch POIs
 fetch("/getPoi")
@@ -30,23 +30,31 @@ var greenIcon = new L.Icon({
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
     shadowSize: [41, 41]
-  });
+});
 
 /**
  * Displays all POIs on the Map
  */
-function displayAllPOIs(){
-    if(click === 0){
-        for(var i = 0; i < pois.length; i++){
-            var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
-            marker.bindPopup("<table><tr><td>Cell 1</td><td>Cell 2</td></tr></table>");
-            allPOIs[i] = marker;
-            marker.addTo(map);
+function displayAllPOIs() {
+    if (click === 0) {
+        for (var i = 0; i < pois.length; i++) {
+            if (pois[i].geometry.type === "Polygon") {
+                var polygon = new L.polygon([pois[i].geometry.coordinates[0]])
+                polygon.bindPopup("<table><tr><td>Cell 1</td><td>Cell 2</td></tr></table>");
+                allPOIs[i] = polygon;
+                polygon.addTo(map);
+            }
+            if (pois[i].geometry.type === "Point") {
+                var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
+                marker.bindPopup("<table><tr><td>Cell 1</td><td>Cell 2</td></tr></table>");
+                allPOIs[i] = marker;
+                marker.addTo(map);
+            }
         }
         click++
     }
-    else{
-        for(var i = 0; i < allPOIs.length; i++){
+    else {
+        for (var i = 0; i < allPOIs.length; i++) {
             map.removeLayer(allPOIs[i]); // deletes the old marker, so there is no overlapping
         }
         click = 0;
