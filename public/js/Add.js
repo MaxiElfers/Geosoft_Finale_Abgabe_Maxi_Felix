@@ -207,4 +207,4 @@ function showPosition(position) {
 }
 
 //list of all EventListeners
-document.getElementById("SubmitButton").addEventListener("click", function () { getValues(); /**window.location = "AddedPoi.html" */ });
+document.getElementById("SubmitButton").addEventListener("click", function () { getValues(); window.location = "AddedPoi.html"  });

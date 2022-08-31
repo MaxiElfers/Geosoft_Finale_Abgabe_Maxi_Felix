@@ -5,7 +5,7 @@ let allPOIs = [];
 var click; // only for counting if the marker where set once or not
 
 // declaration of event listener
-document.getElementById("SubmitButton").addEventListener("click", function () { displayAllPOIs() });
+document.getElementById("SubmitButton").addEventListener("click", function () {displayAllPOIs() });
 
 // fetch POIs
 fetch("/getPoi")
@@ -13,7 +13,7 @@ fetch("/getPoi")
         let res = response.json() // return a Promise as a result
         res.then(data => { // get the data in the promise result
             pois = data;
-            console.log(pois)
+            //console.log(pois)
         })
     })
     .catch(error => console.log(error))
@@ -33,20 +33,24 @@ var greenIcon = new L.Icon({
 });
 
 /**
- * Displays all POIs on the Map
+ * Displays all mountains on the Map
  */
 function displayAllPOIs() {
     if (click === 0) {
         for (var i = 0; i < pois.length; i++) {
             if (pois[i].geometry.type === "Polygon") {
                 var polygon = new L.polygon([pois[i].geometry.coordinates[0]])
-                polygon.bindPopup("<table><tr><td>Cell 1</td><td>Cell 2</td></tr></table>");
+                polygon.bindPopup("<table>Name: " + pois[i].properties.name + "<br>" +
+                                  "Altitude: " + pois[i].properties.altitude + "<br>" + 
+                                  "URL: " + pois[i].properties.url + "</table>");
                 allPOIs[i] = polygon;
                 polygon.addTo(map);
             }
             if (pois[i].geometry.type === "Point") {
                 var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
-                marker.bindPopup("<table><tr><td>Cell 1</td><td>Cell 2</td></tr></table>");
+                marker.bindPopup("Name: " + pois[i].properties.name + "<br>" +
+                                 "Altitude: " + pois[i].properties.altitude + "<br>" + 
+                                 "URL: " + pois[i].properties.url);
                 allPOIs[i] = marker;
                 marker.addTo(map);
             }

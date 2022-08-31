@@ -45,6 +45,11 @@ app.get('/delete', (req, res) =>
   res.sendFile(path.join(__dirname, '/public', 'Delete.html'))
 })
 
+// Path defintion for the change website
+app.get('/change', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'Change.html'))
+})
+
 // Path definition for the fetch
 app.get('/getPoi', (req, res) =>
 {
