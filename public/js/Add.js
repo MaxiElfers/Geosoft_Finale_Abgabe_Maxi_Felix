@@ -74,8 +74,18 @@ var snippet;
  */
 function getValues() {
 
+  // potenzielle Werte aus dem Textfeld ins Geojson übernehmen
   //console.log(document.getElementById("textfeld").value);
   if(document.getElementById("geojsontextarea").value === "" && document.getElementById("textfeld").value !== "") {
+    try {
+      object = JSON.parse(document.getElementById("textfeld").value);
+    } catch (error) {
+        is_json = false;
+        //alert("Invalid JSON string");
+        console.log("Invalid JSON string")
+        document.getElementById("FehlerDiv").style.display = "block";
+      }
+  
     document.getElementById("geojsontextarea").value = document.getElementById("textfeld").value;
     //console.log(document.getElementById("geojsontextarea").value);
     var gezeichnetesGeojson = document.getElementById("geojsontextarea").value;
@@ -93,7 +103,7 @@ function getValues() {
   newName = document.getElementById("NameDiv").value;
   newAltitude = document.getElementById("AltitudeDiv").value;
   newURL = document.getElementById("URLDiv").value;
-  if (newName === "" || newAltitude === "" || newURL === "" || gezeichnetesPolygon === null) {
+  if (newName === "" || newAltitude === "" || newURL === "" || document.getElementById("geojsontextarea").value === "") {
     console.log("Nicht alle Felder wurden ausgefüllt")
     document.getElementById("FehlerDiv").style.display = "block";
   }

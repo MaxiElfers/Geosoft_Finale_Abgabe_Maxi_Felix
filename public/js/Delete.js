@@ -6,7 +6,7 @@ var click; // only for counting if the marker where set once or not
 let id;
 
 // declaration of event listener
-document.getElementById("SubmitButton").addEventListener("click", function(){getValue(); location.reload()});
+document.getElementById("SubmitButton").addEventListener("click", function () { getValue(); location.reload() });
 
 
 // fetch POIs
@@ -32,23 +32,37 @@ var greenIcon = new L.Icon({
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
     shadowSize: [41, 41]
-  });
+});
 
 /**
  * Displays all stops on the map and saves the marker in an Array
  */
-setTimeout(function displayAllPOIs(){
-    if(click === 0){
-        for(var i = 0; i < pois.length; i++){
-            var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
-                .bindPopup(pois[i].properties.name + "<br>" + "id: " + pois[i].id)
-            allPOIs[i] = marker;
-            marker.addTo(map);
+setTimeout(function displayAllPOIs() {
+    if (click === 0) {
+        for (var i = 0; i < pois.length; i++) {
+            if (pois[i].geometry.type === "Polygon") {
+                //console.log(pois[i].geometry.coordinates[0]);
+                var coords = [];
+                for (var j = 0; j < pois[i].geometry.coordinates[0].length; j++) {
+                    coords.push([pois[i].geometry.coordinates[0][j][1], pois[i].geometry.coordinates[0][j][0]]);
+                }
+                //console.log(coords);
+                var polygon = new L.polygon(coords)
+                polygon.bindPopup(pois[i].properties.name + "<br>" + "id: " + pois[i]._id);
+                allPOIs[i] = polygon;
+                polygon.addTo(map);
+            }
+            if (pois[i].geometry.type === "Point") {
+                var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
+                marker.bindPopup(pois[i].properties.name + "<br>" + "id: " + pois[i]._id)
+                allPOIs[i] = marker;
+                marker.addTo(map);
+            }
         }
         click++
     }
-    else{
-        for(var i = 0; i < allPOIs.length; i++){
+    else {
+        for (var i = 0; i < allPOIs.length; i++) {
             map.removeLayer(allPOIs[i]); // deletes the old marker, so there is no overlapping
         }
         click = 0;
@@ -56,24 +70,24 @@ setTimeout(function displayAllPOIs(){
     }
 }, 2000)
 
-document.onload = displayAllPOIs();
+//document.onload = displayAllPOIs();
 
 /**
  * get the value of the IDDiv and start the fetch (delete)
  */
-function getValue(){
-    id = {"id": document.getElementById("IDDiv").value};
+function getValue() {
+    id = { "_id": document.getElementById("IDDiv").value };
     deletePOIs();
 }
 
 /**
  * fetch (deletes) the choosen POI
  */
-function deletePOIs(){
- fetch("/deletePoi",
- {
-   headers: {'Content-Type': 'application/json'},
-   method: "delete",
-   body: JSON.stringify(id)
- })
+function deletePOIs(id) {
+    fetch("/deletePoi",
+        {
+            headers: { 'Content-Type': 'application/json' },
+            method: "delete",
+            body: JSON.stringify()
+        })
 }
