@@ -103,7 +103,7 @@ function getValues() {
   newName = document.getElementById("NameDiv").value;
   newAltitude = document.getElementById("AltitudeDiv").value;
   newURL = document.getElementById("URLDiv").value;
-  if (newName === "" || newAltitude === "" || newURL === "" || document.getElementById("geojsontextarea").value === "") {
+  if (newName === "" || newAltitude === "" || newURL === "" || gezeichnetesPolygon === null) {
     console.log("Nicht alle Felder wurden ausgefüllt")
     document.getElementById("FehlerDiv").style.display = "block";
   }

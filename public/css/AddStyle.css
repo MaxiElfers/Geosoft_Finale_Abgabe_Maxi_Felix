@@ -37,12 +37,6 @@ div{
     text-align: center;
     margin: 10px;
 }
-.container-main #NameDiv, .container-main #IDDiv{
-    margin: 10px;
-    background-color: yellowgreen;
-    color: white;
-    font-size: 2em;
-}
 #map { 
     height: 400px;
     width: 50%;
@@ -59,4 +53,10 @@ span.Eingabe{
     text-align: center;
     color: red;
     display: none;
+}
+input{
+    margin: 10px;
+    background-color: yellowgreen;
+    color: white;
+    font-size: 2em;
 }
