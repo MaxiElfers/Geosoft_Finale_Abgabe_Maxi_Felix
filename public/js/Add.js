@@ -93,6 +93,7 @@ function getValues() {
   newName = document.getElementById("NameDiv").value;
   newAltitude = document.getElementById("AltitudeDiv").value;
   newURL = document.getElementById("URLDiv").value;
+  newID = document.getElementById("IDDiv").value;
   if (newName === "" || newAltitude === "" || newURL === "" || gezeichnetesPolygon === null) {
     console.log("Nicht alle Felder wurden ausgefüllt")
     document.getElementById("FehlerDiv").style.display = "block";
@@ -141,7 +142,8 @@ function getValues() {
         "altitude": newAltitude,
         "url": newURL,
         "description": snippet
-      }
+      },
+      "id": newID
     };
     console.log(data);
     postMarker(data);
