@@ -3,11 +3,9 @@ let pois;
 let aktPOIs;
 let allPOIs = [];
 var click; // only for counting if the marker where set once or not
-let id;
 
 // declaration of event listener
-document.getElementById("SubmitButton").addEventListener("click", function(){getValue(); location.reload()});
-
+document.getElementById("SubmitButton").addEventListener("click", function () {displayAllPOIs() });
 
 // fetch POIs
 fetch("/getPoi")
@@ -32,13 +30,14 @@ var greenIcon = new L.Icon({
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
     shadowSize: [41, 41]
-  });
+});
+
 
 /**
- * Displays all stops on the map and saves the marker in an Array
+ * Displays all mountains on the Map
  */
-setTimeout(function displayAllPOIs(){
-    if(click === 0){
+function displayAllPOIs() {
+    if (click === 0) {
         for (var i = 0; i < pois.length; i++) {
             if (pois[i].geometry.type === "Polygon") {
                 //console.log(pois[i].geometry.coordinates[0]);
@@ -48,7 +47,7 @@ setTimeout(function displayAllPOIs(){
                 }
                 //console.log(coords);
                 var polygon = new L.polygon(coords)
-                polygon.bindPopup("<table><big>Name:</big> " + pois[i].properties.name + "<br>" +
+                polygon.bindPopup("<table>Name: " + pois[i].properties.name + "<br>" +
                                   "Altitude: " + pois[i].properties.altitude + "<br>" + 
                                   "Beschreibung: " + pois[i].properties.description + "<br>" + 
                                   "URL: " + pois[i].properties.url + "</table>");
@@ -68,13 +67,11 @@ setTimeout(function displayAllPOIs(){
         }
         click++
     }
-    else{
-        for(var i = 0; i < allPOIs.length; i++){
+    else {
+        for (var i = 0; i < allPOIs.length; i++) {
             map.removeLayer(allPOIs[i]); // deletes the old marker, so there is no overlapping
         }
         click = 0;
         displayAllPOIs();
     }
-}, 2000)
-
-document.onload = displayAllPOIs();
+}

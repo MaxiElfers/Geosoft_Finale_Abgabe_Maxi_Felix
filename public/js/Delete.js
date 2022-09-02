@@ -68,9 +68,8 @@ setTimeout(function displayAllPOIs() {
         click = 0;
         displayAllPOIs();
     }
-}, 2000)
+}, 1000)
 
-//document.onload = displayAllPOIs();
 
 /**
  * get the value of the IDDiv and start the fetch (delete)

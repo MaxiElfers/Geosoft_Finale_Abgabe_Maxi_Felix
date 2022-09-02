@@ -27,16 +27,15 @@
     <ul>
         <li><a href="http://localhost:3000/">Home</a></li>
         <li><a class="active" href="http://localhost:3000/add">Add</a></li>
-        <li><a href="http://localhost:3000/display">Display</a></li>
+        <li><a href="http://localhost:3000/route">Route</a></li>
         <li><a href="http://localhost:3000/delete">Delete</a></li>
         <li><a href="http://localhost:3000/change">Change</a></li>
       </ul>
 
     <img id="IFGIimg"
         src="https://digitalautonomy.net/fileadmin/_processed_/d/4/csm_1623743845_DAH_Logo_ifgi_long_2b4c356743.png"></img>
-    <h1>You can add POIs to the database.</h1>
-    <div>Draw into the map and add Name and Id, then submit. </div><br>
-    <div>Or you can use the Geojson Textarea as an input.</div><br>
+    <h1>You can add mountians to the database.</h1>
+    <div>Draw into the map and add Name, Altitude, URL and Id, then submit. OR you can use the Geojson Textarea as an input. </div><br>
 
 
 
@@ -53,21 +52,23 @@
         </div>
         <div id="EingabeDiv">Enter the <span class="Eingabe">URL</span> of the Mountain here: <input id="URLDiv" type="text">
         </div>
+        <div id="EingabeDiv">Enter the <span class="Eingabe">ID</span> of the Mountain here: <input id="IDDiv" type="text">
+        </div>
     </div>
 
 
-    <p>Input in GeoJSON-format:
+    <div>Input in <span class="Eingabe">GeoJSON</span>-format:
         <input type="text" name="textfeld" id="textfeld"></input>
-    </p>
+        <p id="demo"></p>
+    </div>
 
 
 
     <!-- Einbinden des Browserstandorts-->
-    <p>Click here to read in your personal Browser-Coordinates: <button onclick="getLocation()">Try It</button> </p>
-    <p id="demo"></p>
+    <div>Click here to read in your personal <span class="Eingabe">Browser-Coordinates</span>: <button onclick="getLocation()">Try It</button> </div>
 
     <div class="container-main">
-    <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Add Point-of-Interest">
+    <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Add mountain">
     </div>
     <div id="FehlerDiv">Sorry, you first need to fill out all inputs!!!</div>
     </div>

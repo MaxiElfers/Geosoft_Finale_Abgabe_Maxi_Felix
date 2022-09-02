@@ -7,11 +7,6 @@
     cursor: pointer;
     font-size: large;
 }
-p{
-    color: rgb(49, 46, 46);
-    text-align: center;
-    font-size:x-large;
-}
 h1{
     color: yellowgreen;
     text-align: center;
@@ -59,4 +54,7 @@ input{
     background-color: yellowgreen;
     color: white;
     font-size: 2em;
+}
+#geojsontextarea{
+    display: none;
 }

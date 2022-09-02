@@ -24,7 +24,7 @@ app.use(express.static('public'))
 // Path definition for the starting Website
 app.get('/', (req, res) => 
 {
-  res.sendFile(path.join(__dirname, '/public', 'StartSeite.html'))
+  res.sendFile(path.join(__dirname, '/public', 'Home.html'))
 })
 
 // Path definition for the first Website
@@ -34,9 +34,9 @@ app.get('/add', (req, res) =>
 })
 
 // Path definition for the second Website
-app.get('/display', (req, res) => 
+app.get('/route', (req, res) => 
 {
-  res.sendFile(path.join(__dirname, '/public', 'Display.html'))
+  res.sendFile(path.join(__dirname, '/public', 'Route.html'))
 })
 
 // Path definition for the third Website

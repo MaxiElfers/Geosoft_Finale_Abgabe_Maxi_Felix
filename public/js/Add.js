@@ -103,7 +103,8 @@ function getValues() {
   newName = document.getElementById("NameDiv").value;
   newAltitude = document.getElementById("AltitudeDiv").value;
   newURL = document.getElementById("URLDiv").value;
-  if (newName === "" || newAltitude === "" || newURL === "" || gezeichnetesPolygon === null) {
+  newID = document.getElementById("IDDiv").value;
+  if (newName === "" || newAltitude === "" || newURL === "" || newID === "" || gezeichnetesPolygon === null) {
     console.log("Nicht alle Felder wurden ausgefüllt")
     document.getElementById("FehlerDiv").style.display = "block";
   }
@@ -150,6 +151,7 @@ function getValues() {
         "name": newName,
         "altitude": newAltitude,
         "url": newURL,
+        "id": newID,
         "description": snippet
       }
     };

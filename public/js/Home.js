@@ -1,12 +1,22 @@
+/**************************
+*** All Event Listeners ***
+**************************/
+let addElem = document.getElementById("AddElem")
+let routeElem = document.getElementById("RouteElem")
+let deleteElem = document.getElementById("DeleteElem")
+let changeElem = document.getElementById("ChangeElem")
+
+addElem.addEventListener("click", function(){window.location.href = "http://localhost:3000/add";})
+routeElem.addEventListener("click", function(){window.location.href = "http://localhost:3000/route";})
+deleteElem.addEventListener("click", function(){window.location.href = "http://localhost:3000/delete";})
+changeElem.addEventListener("click", function(){window.location.href = "http://localhost:3000/change";})
+
 //declaration of global variables
 let pois;
 let aktPOIs;
 let allPOIs = [];
 var click; // only for counting if the marker where set once or not
 let id;
-
-// declaration of event listener
-document.getElementById("SubmitButton").addEventListener("click", function(){getValue(); location.reload()});
 
 
 // fetch POIs
@@ -21,19 +31,11 @@ fetch("/getPoi")
     .catch(error => console.log(error))
 
 // setting up and working with the map
-var map = L.map('map').setView([51.96, 7.63], 5);
+var map = L.map('map', {scrollWheelZoom: false}).setView([51.96, 7.63], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-var greenIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-  });
-
+map.dragging.disable();
 /**
  * Displays all stops on the map and saves the marker in an Array
  */
@@ -75,6 +77,6 @@ setTimeout(function displayAllPOIs(){
         click = 0;
         displayAllPOIs();
     }
-}, 2000)
+}, 1000)
 
-document.onload = displayAllPOIs();
+//document.onload = displayAllPOIs();
