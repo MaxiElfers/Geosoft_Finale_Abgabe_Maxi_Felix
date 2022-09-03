@@ -2,11 +2,14 @@
 let pois;
 let aktPOIs;
 let allPOIs = [];
-var click; // only for counting if the marker where set once or not
+let click; // only for counting if the marker where set once or not
 let id;
+let property;
+
+let tableFill = document.getElementById("table") 
 
 // declaration of event listener
-document.getElementById("SubmitButton").addEventListener("click", function(){getValue(); location.reload()});
+document.getElementById("SubmitButton").addEventListener("click", function(){});
 
 
 // fetch POIs
@@ -37,7 +40,7 @@ var greenIcon = new L.Icon({
 /**
  * Displays all stops on the map and saves the marker in an Array
  */
-setTimeout(function displayAllPOIs(){
+setTimeout(function displayPOIsMap(){
     if(click === 0){
         for (var i = 0; i < pois.length; i++) {
             if (pois[i].geometry.type === "Polygon") {
@@ -51,7 +54,8 @@ setTimeout(function displayAllPOIs(){
                 polygon.bindPopup("<table><big>Name:</big> " + pois[i].properties.name + "<br>" +
                                   "Altitude: " + pois[i].properties.altitude + "<br>" + 
                                   "Beschreibung: " + pois[i].properties.description + "<br>" + 
-                                  "URL: " + pois[i].properties.url + "</table>");
+                                  "URL: " + pois[i].properties.url + "<br>" +
+                                  "ID: " + pois[i].properties.id + "</table>");
                 allPOIs[i] = polygon;
                 polygon.addTo(map);
             }
@@ -61,7 +65,8 @@ setTimeout(function displayAllPOIs(){
                 marker.bindPopup("Name: " + pois[i].properties.name + "<br>" +
                                  "Altitude: " + pois[i].properties.altitude + "<br>" + 
                                  "Beschreibung: " + pois[i].properties.description + "<br>" + 
-                                 "URL: " + pois[i].properties.url);
+                                 "URL: " + pois[i].properties.url + "<br>" +
+                                 "ID: " + pois[i].properties.id);
                 allPOIs[i] = marker;
                 marker.addTo(map);
             }
@@ -73,8 +78,35 @@ setTimeout(function displayAllPOIs(){
             map.removeLayer(allPOIs[i]); // deletes the old marker, so there is no overlapping
         }
         click = 0;
-        displayAllPOIs();
+        displayPOIsMap();
     }
 }, 2000)
 
-//document.onload = displayAllPOIs();
+setTimeout(function displayPOIsTable(){
+    let ueberschrift = '<table class="table-mountains">' 
+            +'<tr>' 
+            +'<td id="ueberschrift">' 
+                +'Mountians'
+            +'</td>' 
+            +'<td id="ueberschrift">' 
+                +'Altitude' 
+            +'</td>'
+            +'<td id="ueberschrift">'
+                +'Description'
+            +'</td>'
+            +'<td id="ueberschrift">' 
+                +'ID' 
+            +'</td>' 
+        +'</tr>'
+    let tableEnde = '</table>'
+
+    for(let i = 0; i < pois.length; i++){
+        property = property + '<tr>' + '<td id="inhalt">' + pois[i].properties.name + '</td>' 
+                +'<td id="inhalt">' + pois[i].properties.altitude + '</td>' 
+                +'<td id="inhalt">' + pois[i].properties.description + '</td>' 
+                +'<td id="inhalt">' + pois[i].properties.id + '</td>' 
+                +'</tr>';
+    }
+
+    tableFill.innerHTML = ueberschrift + property + tableEnde;
+}, 2000);

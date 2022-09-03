@@ -2,12 +2,16 @@ table, th, td {
     border: 1px solid black;
     margin-left: 10%;
     margin-right: 10%;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 #ueberschrift{
     text-align: center;
     font-size: large;
     font-weight: bold;
     padding: 30px 120px 30px 120px;
-    margin: ;
+}
+#inhalt{
+    text-align: center;
+    font-size: large;
+    padding: 30px 120px 30px 120px;
 }
