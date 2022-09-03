@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,31 +10,51 @@
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
         integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
-        crossorigin=""/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css"
+        integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
         integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
         crossorigin=""></script>
     <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 </head>
-    <body>
-        <ul>
-            <li><a href="http://localhost:3000/">Home</a></li>
-            <li><a href="http://localhost:3000/add">Add</a></li>
-            <li><a class="active" href="http://localhost:3000/route">Route</a></li>
-            <li><a href="http://localhost:3000/delete">Delete</a></li>
-            <li><a href="http://localhost:3000/change">Change</a></li>
-          </ul>
 
-        <img id="IFGIimg" src="https://digitalautonomy.net/fileadmin/_processed_/d/4/csm_1623743845_DAH_Logo_ifgi_long_2b4c356743.png"></img>
-        <h1>Here you can display all mountains that are in the database</h1>
+<body>
+    <ul>
+        <li><a href="http://localhost:3000/">Home</a></li>
+        <li><a href="http://localhost:3000/add">Add</a></li>
+        <li><a class="active" href="http://localhost:3000/route">Route</a></li>
+        <li><a href="http://localhost:3000/delete">Delete</a></li>
+        <li><a href="http://localhost:3000/change">Change</a></li>
+    </ul>
 
-        <div class="container-main">
-            <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Display mountains"></div>
+    <img id="IFGIimg"
+        src="https://digitalautonomy.net/fileadmin/_processed_/d/4/csm_1623743845_DAH_Logo_ifgi_long_2b4c356743.png"></img>
+    <h1>Here you can display all mountains that are in the database</h1>
 
-            <div id="map"></div>
-        </div>
-    
+    <div class="container-main">
+        <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Display mountains"></div>
+
+        <div id="map"></div>
+    </div>
+
+    <br>
+    <br>
+    <table style="width:75%" align="center" id="resultTable">
+        <tr>
+            <th>ID</td>
+                <th>Name</td>
+                    <th>Coordinates</td>
+                        <th>Altitude</td>
+                            <th>URL</td>
+                                <th>Description</td>
+
+        </tr>
+    </table>
+
     <script src=js/Route.js></script>
-    </body>
+</body>
+
 </html>

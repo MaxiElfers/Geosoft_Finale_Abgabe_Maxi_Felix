@@ -77,4 +77,4 @@ setTimeout(function displayAllPOIs(){
     }
 }, 2000)
 
-document.onload = displayAllPOIs();
+//document.onload = displayAllPOIs();

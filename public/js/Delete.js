@@ -82,7 +82,7 @@ function getValue() {
 /**
  * fetch (deletes) the choosen POI
  */
-function deletePOIs(id) {
+function deletePOIs() {
     fetch("/deletePoi",
         {
             headers: { 'Content-Type': 'application/json' },

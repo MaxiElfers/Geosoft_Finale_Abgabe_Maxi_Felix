@@ -49,6 +49,11 @@ span.Eingabe{
     color: red;
     display: none;
 }
+#FehlerDiv2{
+    text-align: center;
+    color: red;
+    display: none;
+}
 input{
     margin: 10px;
     background-color: yellowgreen;

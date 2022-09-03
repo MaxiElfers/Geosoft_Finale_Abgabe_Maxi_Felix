@@ -4,6 +4,9 @@ let data = []; // the data that is later gonna be posted as an string
 let newID; // new ID for the data
 let newName; // new Name for the data
 
+//list of all EventListeners
+document.getElementById("SubmitButton").addEventListener("click", function () { getValues(); window.location = "AddedPoi.html" });
+
 
 // setting up and working with the map
 var map = L.map('map').setView([51.96, 7.63], 5);
@@ -83,7 +86,7 @@ function getValues() {
         is_json = false;
         //alert("Invalid JSON string");
         console.log("Invalid JSON string")
-        document.getElementById("FehlerDiv").style.display = "block";
+        document.getElementById("FehlerDiv2").style.display = "block";
       }
   
     document.getElementById("geojsontextarea").value = document.getElementById("textfeld").value;
@@ -104,7 +107,7 @@ function getValues() {
   newAltitude = document.getElementById("AltitudeDiv").value;
   newURL = document.getElementById("URLDiv").value;
   newID = document.getElementById("IDDiv").value;
-  if (newName === "" || newAltitude === "" || newURL === "" || newID === "" || gezeichnetesPolygon === null) {
+  if (newName === "" || newAltitude === "" || newURL === "" || newID === "" || gezeichnetesPolygon === null || gezeichnetesPolygon === "") {
     console.log("Nicht alle Felder wurden ausgefüllt")
     document.getElementById("FehlerDiv").style.display = "block";
   }
@@ -217,6 +220,3 @@ function showPosition(position) {
   geojson.features[0].geometry.coordinates = [position.coords.longitude, position.coords.latitude];
   document.getElementById("textfeld").value = JSON.stringify(geojson);
 }
-
-//list of all EventListeners
-document.getElementById("SubmitButton").addEventListener("click", function () { getValues(); window.location = "AddedPoi.html"  });
