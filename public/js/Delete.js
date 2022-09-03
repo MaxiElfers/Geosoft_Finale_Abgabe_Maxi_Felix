@@ -48,13 +48,13 @@ setTimeout(function displayAllPOIs() {
                 }
                 //console.log(coords);
                 var polygon = new L.polygon(coords)
-                polygon.bindPopup(pois[i].properties.name + "<br>" + "id: " + pois[i]._id);
+                polygon.bindPopup(pois[i].properties.name + "<br>" + "id: " + pois[i].properties.id);
                 allPOIs[i] = polygon;
                 polygon.addTo(map);
             }
             if (pois[i].geometry.type === "Point") {
                 var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
-                marker.bindPopup(pois[i].properties.name + "<br>" + "id: " + pois[i]._id)
+                marker.bindPopup(pois[i].properties.name + "<br>" + "id: " + pois[i].properties.id)
                 allPOIs[i] = marker;
                 marker.addTo(map);
             }
