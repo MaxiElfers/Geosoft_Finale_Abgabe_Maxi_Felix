@@ -46,7 +46,7 @@ function displayAllPOIs() {
                     coords.push([pois[i].geometry.coordinates[0][j][1], pois[i].geometry.coordinates[0][j][0]]);
                 }
                 //console.log(coords);
-                var polygon = new L.polygon(coords)
+                var polygon = new L.polygon(coords, {color: '#4496ee'})
                 polygon.bindPopup("<table>Name: " + pois[i].properties.name + "<br>" +
                     "Altitude: " + pois[i].properties.altitude + "<br>" +
                     "Beschreibung: " + pois[i].properties.description + "<br>" +
@@ -106,12 +106,17 @@ function filltable(pois) {
         actId.push(pois[j].properties.id);
     }
 
-    $("#resultTable tr").hover(function(){
-        $(this).addClass('selected').siblings().removeClass('selected');    
-        var id=$(this).find('td:first').html();
-        highlightLayer(id);    
-     });
-    
+    $("#resultTable tr").mouseenter(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var id = $(this).find('td:first').html();
+        highlightLayer(id);
+    });
+    $("#resultTable tr").mouseleave(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var id = $(this).find('td:first').html();
+        resetLayer(id);
+    });
+
     /**
     
             var newRow = table.insertRow(j + 1);
@@ -154,53 +159,32 @@ function highlightLayer(actId) {
 }
 */
 
-var highlight = {
-    'color': '#333333',
-    'weight': 2,
-    'opacity': 1
-};
-
 function highlightLayer(id) {
-    for (var i = 0; i < pois.length; i++) {
+    for (var i = 0; i < allPOIs.length; i++) {
         if (id === pois[i].properties.id) {
-            pois[i].setStyle({
-                fillColor :'red'
-            })
-            /**
             if (pois[i].geometry.type === "Polygon") {
-                
-                //console.log(pois[i].geometry.coordinates[0]);
-                var coords = [];
-                for (var j = 0; j < pois[i].geometry.coordinates[0].length; j++) {
-                    coords.push([pois[i].geometry.coordinates[0][j][1], pois[i].geometry.coordinates[0][j][0]]);
-                }
-                //console.log(coords);
-                var polygon = new L.polygon(coords,  {
-                    color: 'red',
-                    fillColor: '#f03',
-                    fillOpacity: 0.5})
-                polygon.bindPopup("<table>Name: " + pois[i].properties.name + "<br>" +
-                    "Altitude: " + pois[i].properties.altitude + "<br>" +
-                    "Beschreibung: " + pois[i].properties.description + "<br>" +
-                    "URL: " + pois[i].properties.url + "</table>");
-                allPOIs[i] = polygon;
-                polygon.addTo(map);
+                allPOIs[i].setStyle({
+                    color: 'red'
+                })
             }
             if (pois[i].geometry.type === "Point") {
-                //console.log([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]]);
-                var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]],  {
-                    color: 'red'})
-                marker.bindPopup("Name: " + pois[i].properties.name + "<br>" +
-                    "Altitude: " + pois[i].properties.altitude + "<br>" +
-                    "Beschreibung: " + pois[i].properties.description + "<br>" +
-                    "URL: " + pois[i].properties.url);
-                allPOIs[i] = marker;
-                marker.addTo(map);
-            } */
-
+                allPOIs[i].valueOf()._icon.style.backgroundColor = 'red';
+            }
         }
     }
-
 }
 
-
+function resetLayer(id) {
+    for (var i = 0; i < allPOIs.length; i++) {
+        if (id === pois[i].properties.id) {
+            if (pois[i].geometry.type === "Polygon") {
+                allPOIs[i].setStyle({
+                    color: '#4496ee'
+                })
+            }
+            if (pois[i].geometry.type === "Point") {
+                allPOIs[i].valueOf()._icon.style.backgroundColor = "rgba(0, 0, 0, 0)";
+            }
+        }
+    }
+}
