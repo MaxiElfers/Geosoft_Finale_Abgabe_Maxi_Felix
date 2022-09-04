@@ -116,48 +116,12 @@ function filltable(pois) {
         var id = $(this).find('td:first').html();
         resetLayer(id);
     });
-
-    /**
-    
-            var newRow = table.insertRow(j + 1);
-            var cel1 = newRow.insertCell(0);
-            var cel2 = newRow.insertCell(1);
-            var cel3 = newRow.insertCell(2);
-            var cel4 = newRow.insertCell(3);
-            var cel5 = newRow.insertCell(4);
-            var cel6 = newRow.insertCell(5);
-            cel1.innerHTML = pois[j].properties.name;
-            cel2.innerHTML = pois[j].geometry.coordinates;
-            cel3.innerHTML = pois[j].properties.altitude;
-            cel4.innerHTML = pois[j].properties.url;
-            cel5.innerHTML = pois[j].properties.description;
-            cel6.innerHTML = pois[j].properties.id;
-            actId.push(pois[j].properties.id);
-            rowCount++;
-            console.log(actId);
-            newRow.addEventListener('mouseover', function (e) {
-                var $row = $(this);
-                console.log($row.cel6);
-                //console.log(e.actId[j]);
-            });
-        }
-         */
-    /**
-     $(document).ready(function(){
-         $("tr").mouseover(function(){
-           console.log($("tr").cel6.innerHTML);
-         });
-         $("tr").mouseout(function(){
-           $("tr").css("background-color", "white");
-         });
-       });
-*/
+    $("#resultTable tr").click(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var id = $(this).find('td:first').html();
+        highlightLayer(id);
+    });
 }
-/** 
-function highlightLayer(actId) {
-    console.log(actId);
-}
-*/
 
 function highlightLayer(id) {
     for (var i = 0; i < allPOIs.length; i++) {

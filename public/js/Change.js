@@ -9,7 +9,7 @@ let property;
 let tableFill = document.getElementById("table") 
 
 // declaration of event listener
-document.getElementById("SubmitButton").addEventListener("click", function(){});
+document.getElementById("SubmitButton").addEventListener("click", function(){getValue(); location.reload()});
 
 
 // fetch POIs
@@ -28,14 +28,6 @@ var map = L.map('map').setView([51.96, 7.63], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-var greenIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-  });
 
 /**
  * Displays all stops on the map and saves the marker in an Array
@@ -51,21 +43,15 @@ setTimeout(function displayPOIsMap(){
                 }
                 //console.log(coords);
                 var polygon = new L.polygon(coords)
-                polygon.bindPopup("<table><big>Name:</big> " + pois[i].properties.name + "<br>" +
-                                  "Altitude: " + pois[i].properties.altitude + "<br>" + 
-                                  "Beschreibung: " + pois[i].properties.description + "<br>" + 
-                                  "URL: " + pois[i].properties.url + "<br>" +
-                                  "ID: " + pois[i].properties.id + "</table>");
+                polygon.bindPopup(pois[i].properties.name + "<br>" +
+                                  "ID: " + pois[i].properties.id);
                 allPOIs[i] = polygon;
                 polygon.addTo(map);
             }
             if (pois[i].geometry.type === "Point") {
                 //console.log([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]]);
                 var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
-                marker.bindPopup("Name: " + pois[i].properties.name + "<br>" +
-                                 "Altitude: " + pois[i].properties.altitude + "<br>" + 
-                                 "Beschreibung: " + pois[i].properties.description + "<br>" + 
-                                 "URL: " + pois[i].properties.url + "<br>" +
+                marker.bindPopup(pois[i].properties.name + "<br>" +
                                  "ID: " + pois[i].properties.id);
                 allPOIs[i] = marker;
                 marker.addTo(map);
@@ -80,7 +66,7 @@ setTimeout(function displayPOIsMap(){
         click = 0;
         displayPOIsMap();
     }
-}, 2000)
+}, 500)
 
 setTimeout(function displayPOIsTable(){
     let ueberschrift = '<table class="table-mountains">' 
@@ -109,4 +95,20 @@ setTimeout(function displayPOIsTable(){
     }
 
     tableFill.innerHTML = ueberschrift + property + tableEnde;
-}, 2000);
+}, 500);
+
+
+function getValue() {
+    id = { "_id": document.getElementById("IDDiv").value };
+    displayPoi(id);
+}
+
+function displayPoi(id) {
+    for (var i = 0; i < pois.length; i++) {
+        if (id === pois[i].properties.id) {
+
+        }
+    }
+}
+
+
