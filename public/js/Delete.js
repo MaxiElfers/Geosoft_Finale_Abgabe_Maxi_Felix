@@ -6,7 +6,7 @@ var click; // only for counting if the marker where set once or not
 let id;
 
 // declaration of event listener
-document.getElementById("SubmitButton").addEventListener("click", function () { getValue(); location.reload() });
+document.getElementById("SubmitButton").addEventListener("click", function () { getValue(); location.reload()});
 
 
 // fetch POIs
@@ -67,15 +67,19 @@ setTimeout(function displayAllPOIs() {
  * get the value of the IDDiv and start the fetch (delete)
  */
 function getValue() {
-    id = { "_id": document.getElementById("IDDiv").value };
-    deletePOIs();
+    id = document.getElementById("IDDiv").value;
+    for (var i = 0; i < pois.length; i++) {
+        if (id == pois[i].properties.id) {
+            deletePOIs(pois[i]._id);
+        }
+    }
 }
 
 /**
  * fetch (deletes) the choosen POI
  */
-function deletePOIs() {
-    fetch("/deletePoi",
+function deletePOIs(id) {
+    fetch("/deletePoi/",
         {
             headers: { 'Content-Type': 'application/json' },
             method: "delete",

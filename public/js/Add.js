@@ -3,6 +3,8 @@ let count = 0;
 let data = []; // the data that is later gonna be posted as an string
 let newID; // new ID for the data
 let newName; // new Name for the data
+let newURL;
+let newAltitude;
 
 //list of all EventListeners
 document.getElementById("SubmitButton").addEventListener("click", function () { getValues(); window.location = "AddedPoi.html" });

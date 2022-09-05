@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,36 +11,83 @@
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
         integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
-        crossorigin=""/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css"
+        integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
         integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
         crossorigin=""></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"
+        integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
 </head>
-    <body>
-        <ul>
-            <li><a href="http://localhost:3000/">Home</a></li>
-            <li><a href="http://localhost:3000/add">Add</a></li>
-            <li><a href="http://localhost:3000/route">Route</a></li>
-            <li><a href="http://localhost:3000/delete">Delete</a></li>
-            <li><a class="active" href="http://localhost:3000/change">Change</a></li>
-          </ul>
 
-        <img id="IFGIimg" src="https://digitalautonomy.net/fileadmin/_processed_/d/4/csm_1623743845_DAH_Logo_ifgi_long_2b4c356743.png"></img>
-        <h1>Here you can change the mountians from the database</h1>
+<body>
+    <ul>
+        <li><a href="http://localhost:3000/">Home</a></li>
+        <li><a href="http://localhost:3000/add">Add</a></li>
+        <li><a href="http://localhost:3000/route">Route</a></li>
+        <li><a href="http://localhost:3000/delete">Delete</a></li>
+        <li><a class="active" href="http://localhost:3000/change">Change</a></li>
+    </ul>
+
+    <img id="IFGIimg"
+        src="https://digitalautonomy.net/fileadmin/_processed_/d/4/csm_1623743845_DAH_Logo_ifgi_long_2b4c356743.png"></img>
+    <h1>Here you can change the mountians from the database</h1>
+
+    <div class="container-main">
+        <div id="EingabeDiv">Click on the mountians you want to change to see the id. Copy it into the input and press
+            "change".</div>
+        <br>
+        <div id="map"></div><br>
+        <div id="table">Table is loading ...</div><br>
+        <div id="EingabeDiv1">Enter the <span class="Eingabe">ID</span> of the mountians you want to change here: <input
+                id="oldIDDiv" type="text"></div>
+        <div id="SubmitButtonDiv"><input class="button" id="changeMount" type="submit" value="Change mountians"></div>
+        <div id="FehlerDiv">ID nicht vorhanden</div>
+    </div>
+
+    <div class="container-main" id="Eingabewerte">
+        <!-- Einbinden des Textfeldes für das GeoJSON-->
+        <div id="data">
+            <textarea id="geojsontextarea"></textarea>
+        </div>
+
+        <div id="EingabeDiv">Change the <span class="Eingabe">Name</span> of the Mountain here: <input id="NameDiv"
+                type="text"></div>
+        <div id="EingabeDiv">Change the <span class="Eingabe">Altitude</span> of the Mountain here: <input
+                id="AltitudeDiv" type="text">
+        </div>
+        <div id="EingabeDiv">Change the <span class="Eingabe">URL</span> of the Mountain here: <input id="URLDiv"
+                type="text">
+        </div>
+        <div id="EingabeDiv">Change the <span class="Eingabe">ID</span> of the Mountain here: <input id="IDDiv"
+                type="text">
+        </div>
+        <div>Attention, the Id must be unique!!! </div>
+
+
+        <div>Change the Geometry here (in <span class="Eingabe">GeoJSON</span>-format):
+            <input type="text" name="textfeld" id="textfeld"></input>
+            <p id="demo"></p>
+        </div>
+
+        <!-- Einbinden des Browserstandorts-->
+        <div>Click here to read in your personal <span class="Eingabe">Browser-Coordinates</span>: <button
+                onclick="getLocation()">Try It</button> </div>
 
         <div class="container-main">
-            <div id="EingabeDiv">Click on the mountians you want to change to see the id. Copy it into the input and press "change".</div>
-            <br>
-            <div id="map"></div><br>
-            <div id="table">Table is loading ...</div><br>
-            <div id="EingabeDiv">Enter the <span class="Eingabe">ID</span> of the mountians you want to change here: <input id="IDDiv" type="text"></div>
-            <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Change mountians"></div>
-            <div id="FehlerDiv">Sorry, you first need to fill out all inputs!!!</div>
+            <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Submit">
+            </div>
+            <div id="FehlerDiv1">Nicht alle Felder wurden ausgefüllt!!!</div>
+            <div id="FehlerDiv2">Invalid GeoJSON input!!!</div>
         </div>
-    
+    </div>
+
+
     <script src=js/Change.js></script>
-    </body>
+</body>
+
 </html>

@@ -15,3 +15,9 @@ table, th, td {
     font-size: large;
     padding: 30px 120px 30px 120px;
 }
+#Eingabewerte{
+    display: none;
+}
+#FehlerDiv1{
+    display: none;
+}
