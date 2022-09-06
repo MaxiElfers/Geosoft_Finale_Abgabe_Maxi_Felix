@@ -1,19 +1,17 @@
+th{
+    background-color: #A9A9A9;
+    color: white;
+  }
 table, th, td {
-    border: 1px solid black;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 30px;
-}
-#ueberschrift{
-    text-align: center;
-    font-size: large;
-    font-weight: bold;
-    padding: 30px 120px 30px 120px;
-}
-#inhalt{
-    text-align: center;
-    font-size: large;
-    padding: 30px 120px 30px 120px;
+    padding: 10px;
+      border: 2px solid #A9A9A9;
+      border-color: solid black;
+      border-collapse: collapse;
+  }
+  td {border: 1px #DDD solid; padding: 5px; cursor: pointer;}
+.selected {
+    background-color: brown;
+    color: #FFF;
 }
 #Eingabewerte{
     display: none;

@@ -4,6 +4,7 @@ let aktPOIs;
 let allPOIs = [];
 var click; // only for counting if the marker where set once or not
 let id;
+let hid;
 
 // declaration of event listener
 document.getElementById("SubmitButton").addEventListener("click", function () { getValue(); location.reload()});
@@ -40,13 +41,13 @@ setTimeout(function displayAllPOIs() {
                 }
                 //console.log(coords);
                 var polygon = new L.polygon(coords)
-                polygon.bindPopup(pois[i].properties.name + "<br>" + "id: " + pois[i].properties.id);
+                polygon.bindPopup(pois[i].properties.name + "<br>" + "id: " + pois[i].id);
                 allPOIs[i] = polygon;
                 polygon.addTo(map);
             }
             if (pois[i].geometry.type === "Point") {
                 var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
-                marker.bindPopup(pois[i].properties.name + "<br>" + "id: " + pois[i].properties.id)
+                marker.bindPopup(pois[i].properties.name + "<br>" + "id: " + pois[i].id)
                 allPOIs[i] = marker;
                 marker.addTo(map);
             }
@@ -67,22 +68,18 @@ setTimeout(function displayAllPOIs() {
  * get the value of the IDDiv and start the fetch (delete)
  */
 function getValue() {
-    id = document.getElementById("IDDiv").value;
-    for (var i = 0; i < pois.length; i++) {
-        if (id == pois[i].properties.id) {
-            deletePOIs(pois[i]._id);
-        }
-    }
+    id = {"id": document.getElementById("IDDiv").value};
+    deletePOIs();
 }
 
 /**
  * fetch (deletes) the choosen POI
  */
-function deletePOIs(id) {
-    fetch("/deletePoi/",
+function deletePOIs() {
+    fetch("/deletePoi",
         {
             headers: { 'Content-Type': 'application/json' },
             method: "delete",
-            body: JSON.stringify()
+            body: JSON.stringify(id)
         })
 }
