@@ -90,7 +90,7 @@ function filltable(pois) {
         var cel4 = document.createElement("td");
         var cel5 = document.createElement("td");
         var cel6 = document.createElement("td");
-        cel1.innerHTML = pois[j].properties.id;
+        cel1.innerHTML = pois[j].id;
         cel2.innerHTML = pois[j].properties.name;
         cel3.innerHTML = pois[j].geometry.coordinates;
         cel4.innerHTML = pois[j].properties.altitude;
@@ -103,7 +103,7 @@ function filltable(pois) {
         newRow.append(cel5);
         newRow.append(cel6);
         document.getElementById("resultTable").appendChild(newRow);
-        actId.push(pois[j].properties.id);
+        actId.push(pois[j].id);
     }
 
     $("#resultTable tr").mouseenter(function () {
@@ -125,7 +125,7 @@ function filltable(pois) {
 
 function highlightLayer(id) {
     for (var i = 0; i < allPOIs.length; i++) {
-        if (id === pois[i].properties.id) {
+        if (id === pois[i].id) {
             if (pois[i].geometry.type === "Polygon") {
                 allPOIs[i].setStyle({
                     color: 'red'
@@ -140,7 +140,7 @@ function highlightLayer(id) {
 
 function resetLayer(id) {
     for (var i = 0; i < allPOIs.length; i++) {
-        if (id === pois[i].properties.id) {
+        if (id === pois[i].id) {
             if (pois[i].geometry.type === "Polygon") {
                 allPOIs[i].setStyle({
                     color: '#4496ee'
