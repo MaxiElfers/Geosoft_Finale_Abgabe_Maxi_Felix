@@ -128,14 +128,15 @@ function getValues() {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
       headers.append('Accept', 'application/json');
-      headers.append('Origin','http://localhost:3000');
+      headers.append('Origin','http://localhost:3000/add');
 
 
       fetch(anfrage, {
       mode: 'cors',
       credentials: 'include',
       method: 'GET',
-      headers: headers
+      headers: headers,
+      cache: 'no-cache'
       })
         .then(response => {
           console.log(response);
