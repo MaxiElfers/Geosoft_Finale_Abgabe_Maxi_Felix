@@ -59,7 +59,8 @@ setTimeout(function displayPOIsMap() {
                 marker.addTo(map);
             }
         }
-        click++
+        click++;
+        filltable(pois);
     }
     else {
         for (var i = 0; i < allPOIs.length; i++) {
@@ -68,7 +69,6 @@ setTimeout(function displayPOIsMap() {
         click = 0;
         displayPOIsMap();
     }
-    filltable(pois)
 }, 500)
 
 function filltable(pois) {
@@ -319,4 +319,34 @@ function showPosition(position) {
             method: "delete",
             body: JSON.stringify(id)
         })
+}
+
+function highlightLayer(id) {
+    for (var i = 0; i < allPOIs.length; i++) {
+        if (id === pois[i].id) {
+            if (pois[i].geometry.type === "Polygon") {
+                allPOIs[i].setStyle({
+                    color: 'red'
+                })
+            }
+            if (pois[i].geometry.type === "Point") {
+                allPOIs[i].valueOf()._icon.style.backgroundColor = 'red';
+            }
+        }
+    }
+}
+
+function resetLayer(id) {
+    for (var i = 0; i < allPOIs.length; i++) {
+        if (id === pois[i].id) {
+            if (pois[i].geometry.type === "Polygon") {
+                allPOIs[i].setStyle({
+                    color: '#4496ee'
+                })
+            }
+            if (pois[i].geometry.type === "Point") {
+                allPOIs[i].valueOf()._icon.style.backgroundColor = "rgba(0, 0, 0, 0)";
+            }
+        }
+    }
 }

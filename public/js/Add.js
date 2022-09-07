@@ -10,10 +10,9 @@ let helpNewURL;
 let x = document.getElementById("demo");
 let gezeichnetesPolygon = [];
 let newType;
-// window.location = "AddedPoi.html"
 
 //list of all EventListeners
-document.getElementById("SubmitButton").addEventListener("click", function () { getValues();});
+document.getElementById("SubmitButton").addEventListener("click", function () { getValues()/**, window.location = "AddedPoi.html"*/;});
 
 
 // setting up and working with the map
@@ -119,21 +118,33 @@ function getValues() {
     if (newURL.startsWith("https://en.wikipedia.org/wiki/") || newURL.startsWith("https://de.wikipedia.org/wiki/")) {
       // Anfrage an die Wikipedia API zusammenbauen
       helpNewURL = newURL.substr(30, newURL.length - 30)
-      while (newURL.includes("_")) {
+      console.log(helpNewURL);
+      /**while (newURL.includes("_")) {
         newURL.replace("_", "%20");
-      }
+      }*/
       anfrage = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + helpNewURL + "&format=json";
       console.log(anfrage);
 
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('Accept', 'application/json');
+      headers.append('Origin','http://localhost:3000');
 
-      fetch(anfrage)
+
+      fetch(anfrage, {
+      mode: 'cors',
+      credentials: 'include',
+      method: 'GET',
+      headers: headers
+      })
         .then(response => {
+          console.log(response);
           let result = response.json() // return a Promise as a result
           result.then(data => { // get the data in the promise result
             console.log(data);
             res = JSON.parse(data);
             console.log(res);
-            snippet = res.query.search.snippet;
+            snippet = res.query.search[0].snippet;
             dataErstellen();
           })
         })
