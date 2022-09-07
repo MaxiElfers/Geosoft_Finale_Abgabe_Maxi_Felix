@@ -70,7 +70,6 @@ app.post('/addPoi', function(req, res, next)
 // Path definition for the fetch delete
 app.delete('/deletePoi', function(req, res)
 {
-  console.log(req.body)
   deletePOIs(req.body)
        .catch(console.error)
        .finally(() => setTimeout(() => {client.close()}, 1500))
@@ -137,6 +136,6 @@ async function deletePOIs(data){
   const db = client.db(dbName)
    
   const collection = db.collection(collectionName)
-
-  collection.deleteOne({"id" : data.id}) // function to delete the object with the id given from the database
+  console.log(data.id)
+  collection.deleteOne({"id": data.id}) // function to delete the object with the id given from the database
 }

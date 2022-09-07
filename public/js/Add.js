@@ -5,9 +5,15 @@ let newID; // new ID for the data
 let newName; // new Name for the data
 let newURL;
 let newAltitude;
+let snippet;
+let helpNewURL;
+let x = document.getElementById("demo");
+let gezeichnetesPolygon = [];
+let newType;
+// window.location = "AddedPoi.html"
 
 //list of all EventListeners
-document.getElementById("SubmitButton").addEventListener("click", function () { getValues(); window.location = "AddedPoi.html" });
+document.getElementById("SubmitButton").addEventListener("click", function () { getValues();});
 
 
 // setting up and working with the map
@@ -56,8 +62,6 @@ map.on("draw:edited", function (event) {
 /**
 * generiert ein GeoJSON aus dem gezeichneten Polygon und speichert die Koordinaten in einem Array
 */
-let gezeichnetesPolygon = [];
-var newType;
 
 function updateText() {
   // to convert L.featureGroup to GeoJSON FeatureCollection
@@ -72,13 +76,10 @@ function updateText() {
   })
 }
 
-
-var snippet;
 /**
  * takes the values out of the input and starts the fetch post function
  */
 function getValues() {
-
   // potenzielle Werte aus dem Textfeld ins Geojson übernehmen
   //console.log(document.getElementById("textfeld").value);
   if(document.getElementById("geojsontextarea").value === "" && document.getElementById("textfeld").value !== "") {
@@ -117,23 +118,37 @@ function getValues() {
     // teste, ob es eine Wikipedia URL ist
     if (newURL.startsWith("https://en.wikipedia.org/wiki/") || newURL.startsWith("https://de.wikipedia.org/wiki/")) {
       // Anfrage an die Wikipedia API zusammenbauen
-      newURL.substr(30, newURL.length - 30)
+      helpNewURL = newURL.substr(30, newURL.length - 30)
       while (newURL.includes("_")) {
         newURL.replace("_", "%20");
       }
-      anfrage = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=" + newURL;
+      anfrage = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + helpNewURL + "&format=json";
       console.log(anfrage);
 
+
+      fetch(anfrage)
+        .then(response => {
+          let result = response.json() // return a Promise as a result
+          result.then(data => { // get the data in the promise result
+            console.log(data);
+            res = JSON.parse(data);
+            console.log(res);
+            snippet = res.query.search.snippet;
+            dataErstellen();
+          })
+        })
+        .catch(error => console.log(error))
+
+
       // Erstellen eines XHR-Objektes für die Anfrage des Wikipedia Artikels
-      var xhr = new XMLHttpRequest()
-      xhr.onreadystatechange = "statechangecallback";
+      /*var xhr = new XMLHttpRequest()
       xhr.open("GET", anfrage, true);
       xhr.send();
       console.log(xhr);
 
       /**
        * Callback Funktion zum Erstellen der Bushaltestellen-Objekte und der Berechnung der Entfernungen dorthin
-       */
+       
       xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
           //console.log(this.responseText);
@@ -141,32 +156,53 @@ function getValues() {
           //console.log(res);
           snippet = res.query.search[0].snippet;
         };
+
+      function statechangecallback() {
+        if (xhr.status == "200" && xhr.readyState == 4) {
+          console.log(xhr.responseText);
+          res = JSON.parse(xhr.responseText);
+          console.log(res);
+          snippet = res.query.search.snippet;
+          dataErstellen();
+        }
+      }      
+
+      function errorcallback(){
+        if (xhr.status == "404" || xhr.status == "403" || xhr.readyState == 0){
+            console.log(xhr.status)
+        }
       }
 
+      xhr.onerror = errorcallback;
+      xhr.onreadystatechange = statechangecallback;*/
     }
-    else { snippet = "keine Information vorhanden" }
-
-    data = {
-      "type": "Feature",
-      "geometry": {
-        "type": newType,
-        "coordinates": gezeichnetesPolygon
-      },
-      "properties": {
-        "name": newName,
-        "altitude": newAltitude,
-        "url": newURL,
-        "id": newID,
-        "description": snippet
-      }
-    };
-    console.log(data);
-    postMarker(data);
+    else { 
+      snippet = "keine Information vorhanden";
+      dataErstellen();
+   }
   }
 
 }
 
 
+function dataErstellen(){
+  data = {
+    "id": newID,
+    "type": "Feature",
+    "geometry": {
+      "type": newType,
+      "coordinates": gezeichnetesPolygon
+    },
+    "properties": {
+      "name": newName,
+      "altitude": newAltitude,
+      "url": newURL,
+      "description": snippet
+    }
+  };
+  console.log(data);
+  postMarker(data);
+}
 
 /**
  * Creates an fetch to post the new Marker
@@ -182,9 +218,6 @@ function postMarker(doc) {
   }
 };
 
-
-
-var x = document.getElementById("demo");
 
 /**
  * Returns the Geolocation of the browser

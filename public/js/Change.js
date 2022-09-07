@@ -46,7 +46,7 @@ setTimeout(function displayPOIsMap() {
                 //console.log(coords);
                 var polygon = new L.polygon(coords)
                 polygon.bindPopup(pois[i].properties.name + "<br>" +
-                    "ID: " + pois[i].properties.id);
+                    "ID: " + pois[i].id);
                 allPOIs[i] = polygon;
                 polygon.addTo(map);
             }
@@ -54,7 +54,7 @@ setTimeout(function displayPOIsMap() {
                 //console.log([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]]);
                 var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
                 marker.bindPopup(pois[i].properties.name + "<br>" +
-                    "ID: " + pois[i].properties.id);
+                    "ID: " + pois[i].id);
                 allPOIs[i] = marker;
                 marker.addTo(map);
             }
@@ -68,48 +68,67 @@ setTimeout(function displayPOIsMap() {
         click = 0;
         displayPOIsMap();
     }
+    filltable(pois)
 }, 500)
 
-setTimeout(function displayPOIsTable() {
-    let ueberschrift = '<table class="table-mountains">'
-        + '<tr>'
-        + '<td id="ueberschrift">'
-        + 'Mountians'
-        + '</td>'
-        + '<td id="ueberschrift">'
-        + 'Altitude'
-        + '</td>'
-        + '<td id="ueberschrift">'
-        + 'Description'
-        + '</td>'
-        + '<td id="ueberschrift">'
-        + 'ID'
-        + '</td>'
-        + '</tr>'
-    let tableEnde = '</table>'
-
-    for (let i = 0; i < pois.length; i++) {
-        property = property + '<tr>' + '<td id="inhalt">' + pois[i].properties.name + '</td>'
-            + '<td id="inhalt">' + pois[i].properties.altitude + '</td>'
-            + '<td id="inhalt">' + pois[i].properties.description + '</td>'
-            + '<td id="inhalt">' + pois[i].properties.id + '</td>'
-            + '</tr>';
+function filltable(pois) {
+    var table = document.getElementById("resultTable");
+    var actId = [];
+    var rowCount = 0;
+    //creates the Table with the pois
+    for (var j = 0; j < pois.length; j++) {
+        var newRow = document.createElement("tr");
+        var cel1 = document.createElement("td");
+        var cel2 = document.createElement("td");
+        var cel3 = document.createElement("td");
+        var cel4 = document.createElement("td");
+        var cel5 = document.createElement("td");
+        var cel6 = document.createElement("td");
+        cel1.innerHTML = pois[j].id;
+        cel2.innerHTML = pois[j].properties.name;
+        cel3.innerHTML = pois[j].geometry.coordinates;
+        cel4.innerHTML = pois[j].properties.altitude;
+        cel5.innerHTML = pois[j].properties.url;
+        cel6.innerHTML = pois[j].properties.description;
+        newRow.append(cel1);
+        newRow.append(cel2);
+        newRow.append(cel3);
+        newRow.append(cel4);
+        newRow.append(cel5);
+        newRow.append(cel6);
+        document.getElementById("resultTable").appendChild(newRow);
+        actId.push(pois[j].properties.id);
     }
 
-    tableFill.innerHTML = ueberschrift + property + tableEnde;
-}, 500);
+    $("#resultTable tr").mouseenter(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var id = $(this).find('td:first').html();
+        highlightLayer(id);
+    });
+    $("#resultTable tr").mouseleave(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var id = $(this).find('td:first').html();
+        resetLayer(id);
+    });
+    $("#resultTable tr").click(function () {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        var id = $(this).find('td:first').html();
+        highlightLayer(id);
+    });
+}
 
 
 function ladePoi() {
-    id = document.getElementById("oldIDDiv").value;
+    id = {"id": document.getElementById("oldIDDiv").value};
     displayPoi(id);
 }
 
 
 function displayPoi(id) {
     var treffer = false;
+    var hid = document.getElementById("oldIDDiv").value
     for (var i = 0; i < pois.length; i++) {
-        if (id == pois[i].properties.id) {
+        if (hid == pois[i].id) {
             treffer = true;
             document.getElementById("FehlerDiv").style.display = "none";
             document.getElementById("EingabeDiv1").style.display = "none";
@@ -118,7 +137,7 @@ function displayPoi(id) {
             document.getElementById("NameDiv").value = pois[i].properties.name;
             document.getElementById("AltitudeDiv").value = pois[i].properties.altitude;
             document.getElementById("URLDiv").value = pois[i].properties.url;
-            document.getElementById("IDDiv").value = pois[i].properties.id;
+            document.getElementById("IDDiv").value = pois[i].id;
 
             let geojson = {
                 "type": "FeatureCollection",
@@ -211,6 +230,7 @@ function getValues() {
         else { snippet = "keine Information vorhanden" }
 
         data = {
+            "id": newID,
             "type": "Feature",
             "geometry": {
                 "type": newType,
@@ -220,14 +240,13 @@ function getValues() {
                 "name": newName,
                 "altitude": newAltitude,
                 "url": newURL,
-                "id": newID,
                 "description": snippet
             }
         };
         console.log(data);
         postMarker(data);
         console.log(document.getElementById("oldIDDiv").value);
-        id = { "_id": document.getElementById("oldIDDiv").value};
+        id = { "id": document.getElementById("oldIDDiv").value};
         deletePOIs();
     }
 
@@ -298,6 +317,6 @@ function showPosition(position) {
         {
             headers: { 'Content-Type': 'application/json' },
             method: "delete",
-            body: JSON.stringify()
+            body: JSON.stringify(id)
         })
 }
