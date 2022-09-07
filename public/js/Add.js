@@ -139,7 +139,7 @@ function getValues() {
           //console.log(this.responseText);
           res = JSON.parse(this.responseText);
           //console.log(res);
-          snippet = res.query.search.snippet;
+          snippet = res.query.search[0].snippet;
         };
       }
 
