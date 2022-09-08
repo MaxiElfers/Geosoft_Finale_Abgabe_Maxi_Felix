@@ -2,13 +2,19 @@
 let pois;
 let aktPOIs;
 let allPOIs = [];
-let click; // only for counting if the marker where set once or not
+let click = 0; // only for counting if the marker where set once or not
 let coordinateslat;
 let coordinateslon;
 let directions;
+let coorlon; 
+let coorlat; 
 
 // declaration of event listener
-document.getElementById("SubmitButton").addEventListener("click", function () { displayAllPOIs() });
+let submitBut = document.getElementById("SubmitButton")
+let submitButDiv = document.getElementById("SubmitButtonDiv")
+let table = document.getElementById("table");
+let mapDiv = document.getElementById("map");
+submitBut.addEventListener("click", function () { filltable(pois); submitButDiv.style.visibility = "hidden"; });
 
 // fetch POIs
 fetch("/getPoi")
@@ -29,25 +35,10 @@ var map = new mapboxgl.Map({
   zoom: 4
 });
 
-// setting up and working with the map
-/*var map = L.map('map').setView([51.96, 7.63], 5);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-var greenIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});*/
-
-
 /**
  * Displays all mountains on the Map
  */
-function displayAllPOIs() {
+/*function displayAllPOIs() {
     if (click === 0) {
 
         // ein Versuch, die Pois als Layer der Karte hinzuzufügen
@@ -101,10 +92,9 @@ function displayAllPOIs() {
         click = 0;
         displayAllPOIs();
     }
-}
+}*/
 
 function filltable(pois) {
-    var table = document.getElementById("resultTable");
     var actId = [];
     var rowCount = 0;
     //creates the Table with the pois
@@ -146,6 +136,9 @@ function filltable(pois) {
         $(this).addClass('selected').siblings().removeClass('selected');
         var hid = $(this).find('td:first').html();
         highlightLayer(hid);
+        destinationCoords(hid);
+        directionsAdden();
+        table.style.display = "none";
     });
 }
 
@@ -197,12 +190,34 @@ function resetLayer(id) {
     coordinateslat = position.coords.latitude
     coordinateslon = position.coords.longitude;
   };
+
+  function destinationCoords(hid){
+    for (var i = 0; i < pois.length; i++) {
+        if (hid === pois[i].id) {
+            if (pois[i].geometry.type === "Polygon") {
+                coorlat = pois[i].geometry.coordinates[0][0][1];
+                coorlon = pois[i].geometry.coordinates[0][0][0];
+            }
+            if (pois[i].geometry.type === "Point") {
+                coorlat = pois[i].geometry.coordinates[1];
+                coorlon = pois[i].geometry.coordinates[0];
+            }
+        }
+    }
+  }
     
   
-  setTimeout(function() {
-    directions = new MapboxDirections({
-      accessToken: mapboxgl.accessToken
-    });
-    map.addControl(directions, 'top-left');
-    directions.setOrigin(coordinateslon + "," + coordinateslat);
-  }, 1000);
+function directionsAdden() {
+    if(click === 0){
+        directions = new MapboxDirections({
+            accessToken: mapboxgl.accessToken
+          });
+        map.addControl(directions, 'top-left');
+        directions.setOrigin(coordinateslon + "," + coordinateslat);
+        directions.setDestination(coorlon + ',' + coorlat);
+        click++;
+    }
+    else{
+        clearMap()
+    }
+  };

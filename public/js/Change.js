@@ -75,8 +75,6 @@ setTimeout(function displayPOIsMap() {
     }
 }, 500)
 
-setTimeout(function(){filltable(pois)},500)
-
 /**
  * Displays all the Data from the Database
  * as a table
@@ -138,11 +136,11 @@ setTimeout(function(){filltable(pois)},500)
         if (hid === pois[i].id) {
             if (pois[i].geometry.type === "Polygon") {
                 allPOIs[i].setStyle({
-                    color: 'red'
+                    color: 'yellowgreen'
                 })
             }
             if (pois[i].geometry.type === "Point") {
-                allPOIs[i].valueOf()._icon.style.backgroundColor = 'red';
+                allPOIs[i].valueOf()._icon.style.backgroundColor = 'yellowgreen';
             }
         }
     }

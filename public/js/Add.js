@@ -13,7 +13,7 @@ let newType;
 
 //list of all EventListeners
 
-document.getElementById("SubmitButton").addEventListener("click", function () { getValues()/**, window.location = "AddedPoi.html"*/;});
+document.getElementById("SubmitButton").addEventListener("click", function () { getValues(), window.location = "AddedPoi.html";});
 
 
 // setting up and working with the map
