@@ -10,10 +10,9 @@ let helpNewURL;
 let x = document.getElementById("demo");
 let gezeichnetesPolygon = [];
 let newType;
-// window.location = "AddedPoi.html"
 
 //list of all EventListeners
-document.getElementById("SubmitButton").addEventListener("click", function () { getValues();});
+document.getElementById("SubmitButton").addEventListener("click", function () {getValues(); window.location = "AddedPoi.html"});
 
 
 // setting up and working with the map
@@ -58,10 +57,6 @@ map.on(L.Draw.Event.CREATED, function (event) {
 map.on("draw:edited", function (event) {
   updateText();
 });
-
-/**
-* generiert ein GeoJSON aus dem gezeichneten Polygon und speichert die Koordinaten in einem Array
-*/
 
 function updateText() {
   // to convert L.featureGroup to GeoJSON FeatureCollection
@@ -139,31 +134,6 @@ function getValues() {
         })
         .catch(error => console.log(error))
 
-
-      // Erstellen eines XHR-Objektes für die Anfrage des Wikipedia Artikels
-      /*var xhr = new XMLHttpRequest()
-      xhr.open("GET", anfrage, true);
-      xhr.send();
-      console.log(xhr);
-
-      function statechangecallback() {
-        if (xhr.status == "200" && xhr.readyState == 4) {
-          console.log(xhr.responseText);
-          res = JSON.parse(xhr.responseText);
-          console.log(res);
-          snippet = res.query.search.snippet;
-          dataErstellen();
-        }
-      }      
-
-      function errorcallback(){
-        if (xhr.status == "404" || xhr.status == "403" || xhr.readyState == 0){
-            console.log(xhr.status)
-        }
-      }
-
-      xhr.onerror = errorcallback;
-      xhr.onreadystatechange = statechangecallback;*/
     }
     else { 
       snippet = "keine Information vorhanden";
@@ -173,7 +143,10 @@ function getValues() {
 
 }
 
-
+/**
+ * Erstellt die Daten (mountains) die in die 
+ * Datenbank hochgeladen werden sollen
+ */
 function dataErstellen(){
   data = {
     "id": newID,

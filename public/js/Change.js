@@ -6,8 +6,12 @@ let click; // only for counting if the marker where set once or not
 let id;
 let property;
 let count = 0;
+let snippet;
+let gezeichnetesPolygon = [];
 
+let x = document.getElementById("demo");
 let tableFill = document.getElementById("table")
+let oldIDDiv = document.getElementById("oldIDDiv");
 
 // declaration of event listener
 document.getElementById("changeMount").addEventListener("click", function () { ladePoi() });
@@ -68,10 +72,16 @@ setTimeout(function displayPOIsMap() {
         click = 0;
         displayPOIsMap();
     }
-    filltable(pois)
 }, 500)
 
-function filltable(pois) {
+setTimeout(function(){filltable(pois)},500)
+
+/**
+ * Displays all the Data from the Database
+ * as a table
+ * @param {Object} pois 
+ */
+ function filltable(pois) {
     var table = document.getElementById("resultTable");
     var actId = [];
     var rowCount = 0;
@@ -97,34 +107,79 @@ function filltable(pois) {
         newRow.append(cel5);
         newRow.append(cel6);
         document.getElementById("resultTable").appendChild(newRow);
-        actId.push(pois[j].properties.id);
+        actId.push(pois[j].id);
     }
 
     $("#resultTable tr").mouseenter(function () {
         $(this).addClass('selected').siblings().removeClass('selected');
-        var id = $(this).find('td:first').html();
-        highlightLayer(id);
+        var hid = $(this).find('td:first').html();
+        highlightLayer(hid);
     });
     $("#resultTable tr").mouseleave(function () {
         $(this).addClass('selected').siblings().removeClass('selected');
-        var id = $(this).find('td:first').html();
-        resetLayer(id);
+        var hid = $(this).find('td:first').html();
+        resetLayer(hid);
     });
     $("#resultTable tr").click(function () {
         $(this).addClass('selected').siblings().removeClass('selected');
-        var id = $(this).find('td:first').html();
-        highlightLayer(id);
+        var hid = $(this).find('td:first').html();
+        highlightLayer(hid);
+        oldIDDiv.value = hid;
     });
 }
 
-
-function ladePoi() {
-    id = {"id": document.getElementById("oldIDDiv").value};
-    displayPoi(id);
+/**
+ * Higlights the Layer with the given ID
+ * @param {number} hid 
+ */
+ function highlightLayer(hid) {
+    for (var i = 0; i < allPOIs.length; i++) {
+        if (hid === pois[i].id) {
+            if (pois[i].geometry.type === "Polygon") {
+                allPOIs[i].setStyle({
+                    color: 'red'
+                })
+            }
+            if (pois[i].geometry.type === "Point") {
+                allPOIs[i].valueOf()._icon.style.backgroundColor = 'red';
+            }
+        }
+    }
 }
 
+/**
+ * Resets the higlight from the layer with
+ * the given ID
+ * @param {number} hid 
+ */
+ function resetLayer(id) {
+    for (var i = 0; i < allPOIs.length; i++) {
+        if (id === pois[i].id) {
+            if (pois[i].geometry.type === "Polygon") {
+                allPOIs[i].setStyle({
+                    color: '#4496ee'
+                })
+            }
+            if (pois[i].geometry.type === "Point") {
+                allPOIs[i].valueOf()._icon.style.backgroundColor = "rgba(0, 0, 0, 0)";
+            }
+        }
+    }
+}
 
-function displayPoi(id) {
+/**
+ * Get the (from the user) given POI
+ */
+function ladePoi() {
+    id = {"id": oldIDDiv.value};
+    displayPoi();
+}
+
+/**
+ * Shows the properties of the POI which was chosen,
+ * so they can be changed
+ */
+function displayPoi() {
     var treffer = false;
     var hid = document.getElementById("oldIDDiv").value
     for (var i = 0; i < pois.length; i++) {
@@ -156,9 +211,6 @@ function displayPoi(id) {
     if (!treffer) { document.getElementById("FehlerDiv").style.display = "block"; }
 }
 
-
-var snippet;
-let gezeichnetesPolygon = [];
 /**
  * takes the values out of the input and starts the fetch post function
  */
@@ -252,8 +304,6 @@ function getValues() {
 
 }
 
-
-
 /**
  * Creates an fetch to post the new Marker
  */
@@ -267,10 +317,6 @@ function postMarker(doc) {
             })
     }
 };
-
-
-
-var x = document.getElementById("demo");
 
 /**
  * Returns the Geolocation of the browser
