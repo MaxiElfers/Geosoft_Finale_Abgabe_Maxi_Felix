@@ -12,6 +12,7 @@ let gezeichnetesPolygon = [];
 let newType;
 
 //list of all EventListeners
+
 document.getElementById("SubmitButton").addEventListener("click", function () { getValues()/**, window.location = "AddedPoi.html"*/;});
 
 
@@ -57,10 +58,6 @@ map.on(L.Draw.Event.CREATED, function (event) {
 map.on("draw:edited", function (event) {
   updateText();
 });
-
-/**
-* generiert ein GeoJSON aus dem gezeichneten Polygon und speichert die Koordinaten in einem Array
-*/
 
 function updateText() {
   // to convert L.featureGroup to GeoJSON FeatureCollection
@@ -151,7 +148,6 @@ function getValues() {
         })
         .catch(error => console.log(error))
 
-
       // Erstellen eines XHR-Objektes für die Anfrage des Wikipedia Artikels
       /*var xhr = new XMLHttpRequest()
       xhr.open("GET", anfrage, true);
@@ -196,7 +192,10 @@ function getValues() {
 
 }
 
-
+/**
+ * Erstellt die Daten (mountains) die in die 
+ * Datenbank hochgeladen werden sollen
+ */
 function dataErstellen(){
   data = {
     "id": newID,

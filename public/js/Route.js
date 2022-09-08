@@ -2,7 +2,10 @@
 let pois;
 let aktPOIs;
 let allPOIs = [];
-var click; // only for counting if the marker where set once or not
+let click; // only for counting if the marker where set once or not
+let coordinateslat;
+let coordinateslon;
+let directions;
 
 // declaration of event listener
 document.getElementById("SubmitButton").addEventListener("click", function () { displayAllPOIs() });
@@ -18,8 +21,16 @@ fetch("/getPoi")
     })
     .catch(error => console.log(error))
 
+mapboxgl.accessToken = 'pk.eyJ1IjoiYndhZGFtc29uIiwiYSI6ImNqajZhNm1idDFzMjIza3A2Y3ZmdDV6YWYifQ.9NhptR7a9D0hzWXR51y_9w';
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v9',
+  center: [7.63, 51.96],
+  zoom: 4
+});
+
 // setting up and working with the map
-var map = L.map('map').setView([51.96, 7.63], 5);
+/*var map = L.map('map').setView([51.96, 7.63], 5);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
@@ -30,7 +41,7 @@ var greenIcon = new L.Icon({
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
     shadowSize: [41, 41]
-});
+});*/
 
 
 /**
@@ -108,24 +119,24 @@ function filltable(pois) {
 
     $("#resultTable tr").mouseenter(function () {
         $(this).addClass('selected').siblings().removeClass('selected');
-        var id = $(this).find('td:first').html();
-        highlightLayer(id);
+        var hid = $(this).find('td:first').html();
+        highlightLayer(hid);
     });
     $("#resultTable tr").mouseleave(function () {
         $(this).addClass('selected').siblings().removeClass('selected');
-        var id = $(this).find('td:first').html();
-        resetLayer(id);
+        var hid = $(this).find('td:first').html();
+        resetLayer(hid);
     });
     $("#resultTable tr").click(function () {
         $(this).addClass('selected').siblings().removeClass('selected');
-        var id = $(this).find('td:first').html();
-        highlightLayer(id);
+        var hid = $(this).find('td:first').html();
+        highlightLayer(hid);
     });
 }
 
-function highlightLayer(id) {
+function highlightLayer(hid) {
     for (var i = 0; i < allPOIs.length; i++) {
-        if (id === pois[i].id) {
+        if (hid === pois[i].id) {
             if (pois[i].geometry.type === "Polygon") {
                 allPOIs[i].setStyle({
                     color: 'red'
@@ -152,3 +163,31 @@ function resetLayer(id) {
         }
     }
 }
+
+/**
+ * Returns the Geolocation of the browser
+ * @returns {coordinates}
+ */
+ setTimeout(function() {
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(showPosition);
+    }
+  }, 100)
+  
+  /**
+   * shows the position of the browser 
+   * @param {coordinates} position 
+   */
+  function showPosition(position) {
+    coordinateslat = position.coords.latitude
+    coordinateslon = position.coords.longitude;
+  };
+    
+  
+  setTimeout(function() {
+    directions = new MapboxDirections({
+      accessToken: mapboxgl.accessToken
+    });
+    map.addControl(directions, 'top-left');
+    directions.setOrigin(coordinateslon + "," + coordinateslat);
+  }, 1000);
