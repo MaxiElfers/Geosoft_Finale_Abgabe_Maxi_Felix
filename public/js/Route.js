@@ -49,6 +49,17 @@ var greenIcon = new L.Icon({
  */
 function displayAllPOIs() {
     if (click === 0) {
+
+        // ein Versuch, die Pois als Layer der Karte hinzuzufügen
+        /**map.addSource('berge', 
+            {'type': 'geojson',
+            'data': {
+                'type': 'FeatureCollection',
+                'features': [pois]}});
+        map.addLayer({'id': 'berge',
+        'type': 'symbol','source': 'berge'});*/
+
+
         for (var i = 0; i < pois.length; i++) {
             if (pois[i].geometry.type === "Polygon") {
                 //console.log(pois[i].geometry.coordinates[0]);
@@ -67,11 +78,15 @@ function displayAllPOIs() {
             }
             if (pois[i].geometry.type === "Point") {
                 //console.log([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]]);
-                var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
-                marker.bindPopup("Name: " + pois[i].properties.name + "<br>" +
+                const el = document.createElement('div');
+                el.className = 'marker';
+                // Marker werden trotzdem nicht angezeigt
+                var marker = new mapboxgl.Marker(el).setLngLat([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
+                /**marker.setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                .setHTML(Name: " + pois[i].properties.name + "<br>" +
                     "Altitude: " + pois[i].properties.altitude + "<br>" +
                     "Beschreibung: " + pois[i].properties.description + "<br>" +
-                    "URL: " + pois[i].properties.url);
+                    "URL: " + pois[i].properties.url));*/
                 allPOIs[i] = marker;
                 marker.addTo(map);
             }
