@@ -37,27 +37,27 @@
 
     <img id="IFGIimg"
         src="https://digitalautonomy.net/fileadmin/_processed_/d/4/csm_1623743845_DAH_Logo_ifgi_long_2b4c356743.png"></img>
-    <h1>Here you can display all mountains that are in the database</h1>
+    <h1>Here you can see possible routes from your location to the mountains</h1>
 
     <div class="container-main">
-        <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Display mountains"></div>
+        <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Display mountains in table"></div>
 
-        <div id="map"></div>
+        <div id="map"></div> <br><br>
+
+        <div id="table">
+            <table style="width:75%" align="center" id="resultTable">
+                <tr>
+                    <th>ID</td>
+                        <th>Name</td>
+                            <th>Coordinates</td>
+                                <th>Altitude</td>
+                                    <th>URL</td>
+                                        <th>Description</td>
+    
+                </tr>
+            </table>
+        </div>
     </div>
-
-    <br>
-    <br>
-    <table style="width:75%" align="center" id="resultTable">
-        <tr>
-            <th>ID</td>
-                <th>Name</td>
-                    <th>Coordinates</td>
-                        <th>Altitude</td>
-                            <th>URL</td>
-                                <th>Description</td>
-
-        </tr>
-    </table>
 
     <script src=js/Route.js></script>
 </body>

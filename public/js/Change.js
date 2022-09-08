@@ -75,8 +75,6 @@ setTimeout(function displayPOIsMap() {
     }
 }, 500)
 
-setTimeout(function(){filltable(pois)},500)
-
 /**
  * Displays all the Data from the Database
  * as a table
