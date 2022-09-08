@@ -136,11 +136,11 @@ setTimeout(function displayPOIsMap() {
         if (hid === pois[i].id) {
             if (pois[i].geometry.type === "Polygon") {
                 allPOIs[i].setStyle({
-                    color: 'red'
+                    color: 'yellowgreen'
                 })
             }
             if (pois[i].geometry.type === "Point") {
-                allPOIs[i].valueOf()._icon.style.backgroundColor = 'red';
+                allPOIs[i].valueOf()._icon.style.backgroundColor = 'yellowgreen';
             }
         }
     }
