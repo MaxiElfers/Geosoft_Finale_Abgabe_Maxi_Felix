@@ -12,7 +12,8 @@ let gezeichnetesPolygon = [];
 let newType;
 
 //list of all EventListeners
-document.getElementById("SubmitButton").addEventListener("click", function () {getValues(); window.location = "AddedPoi.html"});
+
+document.getElementById("SubmitButton").addEventListener("click", function () { getValues()/**, window.location = "AddedPoi.html"*/;});
 
 
 // setting up and working with the map
@@ -114,26 +115,74 @@ function getValues() {
     if (newURL.startsWith("https://en.wikipedia.org/wiki/") || newURL.startsWith("https://de.wikipedia.org/wiki/")) {
       // Anfrage an die Wikipedia API zusammenbauen
       helpNewURL = newURL.substr(30, newURL.length - 30)
-      while (newURL.includes("_")) {
+      console.log(helpNewURL);
+      /**while (newURL.includes("_")) {
         newURL.replace("_", "%20");
-      }
+      }*/
       anfrage = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + helpNewURL + "&format=json";
       console.log(anfrage);
 
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('Accept', 'application/json');
+      headers.append('Origin','http://localhost:3000/add');
 
-      fetch(anfrage)
+
+      fetch(anfrage, {
+      mode: 'cors',
+      credentials: 'include',
+      method: 'GET',
+      headers: headers,
+      cache: 'no-cache'
+      })
         .then(response => {
+          console.log(response);
           let result = response.json() // return a Promise as a result
           result.then(data => { // get the data in the promise result
             console.log(data);
             res = JSON.parse(data);
             console.log(res);
-            snippet = res.query.search.snippet;
+            snippet = res.query.search[0].snippet;
             dataErstellen();
           })
         })
         .catch(error => console.log(error))
 
+      // Erstellen eines XHR-Objektes für die Anfrage des Wikipedia Artikels
+      /*var xhr = new XMLHttpRequest()
+      xhr.open("GET", anfrage, true);
+      xhr.send();
+      console.log(xhr);
+
+      /**
+       * Callback Funktion zum Erstellen der Bushaltestellen-Objekte und der Berechnung der Entfernungen dorthin
+       
+      xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          //console.log(this.responseText);
+          res = JSON.parse(this.responseText);
+          //console.log(res);
+          snippet = res.query.search[0].snippet;
+        };
+
+      function statechangecallback() {
+        if (xhr.status == "200" && xhr.readyState == 4) {
+          console.log(xhr.responseText);
+          res = JSON.parse(xhr.responseText);
+          console.log(res);
+          snippet = res.query.search.snippet;
+          dataErstellen();
+        }
+      }      
+
+      function errorcallback(){
+        if (xhr.status == "404" || xhr.status == "403" || xhr.readyState == 0){
+            console.log(xhr.status)
+        }
+      }
+
+      xhr.onerror = errorcallback;
+      xhr.onreadystatechange = statechangecallback;*/
     }
     else { 
       snippet = "keine Information vorhanden";
