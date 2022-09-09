@@ -273,8 +273,9 @@ function getValues() {
       .catch(error => console.log(error))
 
         }
-        else { snippet = "keine Information vorhanden" }
-        dataErstellen();
+        else { snippet = "keine Information vorhanden" 
+        dataErstellen();}
+
     }
 }
 
