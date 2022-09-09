@@ -38,7 +38,7 @@ var map = new mapboxgl.Map({
 /**
  * Displays all mountains on the Map
  */
-/*function displayAllPOIs() {
+function displayAllPOIs() {
     if (click === 0) {
 
         // ein Versuch, die Pois als Layer der Karte hinzuzufügen
@@ -92,7 +92,7 @@ var map = new mapboxgl.Map({
         click = 0;
         displayAllPOIs();
     }
-}*/
+}
 
 function filltable(pois) {
     var actId = [];
