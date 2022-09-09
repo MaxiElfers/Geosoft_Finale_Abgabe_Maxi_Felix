@@ -13,7 +13,7 @@ let newType;
 
 //list of all EventListeners
 
-document.getElementById("SubmitButton").addEventListener("click", function () { getValues(), window.location = "AddedPoi.html";});
+document.getElementById("SubmitButton").addEventListener("click", function () { getValues()/**, window.location = "AddedPoi.html"*/;});
 
 
 // setting up and working with the map
@@ -119,30 +119,18 @@ function getValues() {
       /**while (newURL.includes("_")) {
         newURL.replace("_", "%20");
       }*/
-      anfrage = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + helpNewURL + "&format=json";
+      anfrage = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + helpNewURL + "&format=json&origin=*";
       console.log(anfrage);
 
-      let headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      headers.append('Accept', 'application/json');
-      headers.append('Origin','http://localhost:3000/add');
 
-
-      fetch(anfrage, {
-      mode: 'cors',
-      credentials: 'include',
-      method: 'GET',
-      headers: headers,
-      cache: 'no-cache'
-      })
+      fetch(anfrage)
         .then(response => {
           console.log(response);
           let result = response.json() // return a Promise as a result
           result.then(data => { // get the data in the promise result
             console.log(data);
-            res = JSON.parse(data);
-            console.log(res);
-            snippet = res.query.search[0].snippet;
+            snippet = data.query.search[0].snippet;
+            console.log(snippet);
             dataErstellen();
           })
         })

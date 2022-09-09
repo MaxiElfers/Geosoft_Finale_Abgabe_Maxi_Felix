@@ -15,7 +15,7 @@ let oldIDDiv = document.getElementById("oldIDDiv");
 
 // declaration of event listener
 document.getElementById("changeMount").addEventListener("click", function () { ladePoi() });
-document.getElementById("SubmitButton").addEventListener("click", function () { getValues(); location.reload() });
+document.getElementById("SubmitButton").addEventListener("click", function () { getValues(); location.reload()});
 
 
 // fetch POIs
@@ -64,7 +64,7 @@ setTimeout(function displayPOIsMap() {
             }
         }
         click++;
-        filltable(pois);
+        filltable();
     }
     else {
         for (var i = 0; i < allPOIs.length; i++) {
@@ -80,7 +80,7 @@ setTimeout(function displayPOIsMap() {
  * as a table
  * @param {Object} pois 
  */
- function filltable(pois) {
+ function filltable() {
     var table = document.getElementById("resultTable");
     var actId = [];
     var rowCount = 0;
@@ -250,58 +250,59 @@ function getValues() {
     else {
         // teste, ob es eine Wikipedia URL ist
         if (newURL.startsWith("https://en.wikipedia.org/wiki/") || newURL.startsWith("https://de.wikipedia.org/wiki/")) {
-            // Anfrage an die Wikipedia API zusammenbauen
-            newURL.substr(30, newURL.length - 30)
-            while (newURL.includes("_")) {
-                newURL.replace("_", "%20");
-            }
-            anfrage = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=" + newURL;
-            console.log(anfrage);
+      // Anfrage an die Wikipedia API zusammenbauen
+      helpNewURL = newURL.substr(30, newURL.length - 30)
+      console.log(helpNewURL);
+      /**while (newURL.includes("_")) {
+        newURL.replace("_", "%20");
+      }*/
+      anfrage = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + helpNewURL + "&format=json&origin=*";
+      console.log(anfrage);
 
-            // Erstellen eines XHR-Objektes für die Anfrage des Wikipedia Artikels
-            var xhr = new XMLHttpRequest()
-            xhr.onreadystatechange = "statechangecallback";
-            xhr.open("GET", anfrage, true);
-            xhr.send();
-            console.log(xhr);
-
-            /**
-             * Callback Funktion zum Erstellen der Bushaltestellen-Objekte und der Berechnung der Entfernungen dorthin
-             */
-            xhr.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    //console.log(this.responseText);
-                    res = JSON.parse(this.responseText);
-                    //console.log(res);
-                    snippet = res.query.search.snippet;
-                };
-            }
+      fetch(anfrage)
+      .then(response => {
+        console.log(response);
+        let result = response.json() // return a Promise as a result
+        result.then(data => { // get the data in the promise result
+          console.log(data);
+          snippet = data.query.search[0].snippet;
+          console.log(snippet);
+          dataErstellen();
+        })
+      })
+      .catch(error => console.log(error))
 
         }
         else { snippet = "keine Information vorhanden" }
-
-        data = {
-            "id": newID,
-            "type": "Feature",
-            "geometry": {
-                "type": newType,
-                "coordinates": gezeichnetesPolygon
-            },
-            "properties": {
-                "name": newName,
-                "altitude": newAltitude,
-                "url": newURL,
-                "description": snippet
-            }
-        };
-        console.log(data);
-        postMarker(data);
-        console.log(document.getElementById("oldIDDiv").value);
-        id = { "id": document.getElementById("oldIDDiv").value};
-        deletePOIs();
+        dataErstellen();
     }
-
 }
+
+/**
+ * Erstellt die Daten (mountains) die in die 
+ * Datenbank hochgeladen werden sollen
+ */
+ function dataErstellen(){
+    data = {
+      "id": newID,
+      "type": "Feature",
+      "geometry": {
+        "type": newType,
+        "coordinates": gezeichnetesPolygon
+      },
+      "properties": {
+        "name": newName,
+        "altitude": newAltitude,
+        "url": newURL,
+        "description": snippet
+      }
+    };
+    console.log(data);
+    postMarker(data);
+    console.log(document.getElementById("oldIDDiv").value);
+    id = { "id": document.getElementById("oldIDDiv").value};
+    deletePOIs();
+  }
 
 /**
  * Creates an fetch to post the new Marker
