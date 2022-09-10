@@ -61,6 +61,11 @@ app.get('/change', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'Change.html'))
 })
 
+// Path defintion for the impressum website
+app.get('/impressum', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'Impressum.html'))
+})
+
 // Path definition for the fetch
 app.get('/getPoi', (req, res) =>
 {
