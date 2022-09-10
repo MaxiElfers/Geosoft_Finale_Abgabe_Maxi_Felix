@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Maximilian Elfers">
+    <meta name="author" content="Maximilian Elfers, Felix Disselkamp">
     <meta name="description" content="This is a website for the tasks in Geosoftware 2022">
     <link rel="stylesheet" href="css/Route.css">
     <link rel="stylesheet" href="css/navbar.css">
@@ -41,6 +41,12 @@
 
     <div class="container-main">
         <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Display mountains in table"></div>
+        <div id="EingabeDiv">Enter the <span class="Eingabe">ID</span> of the Mountain you want to route to here: <input id="IDDiv" type="text">
+        </div>
+        <div id="SubmitButtonDiv2"><input class="button" id="SubmitButton2" type="submit" value="Start the Route">
+        </div>
+        <div id="FehlerDiv">Sorry, you first need to fill in an Id!!!</div>
+        <div id="FehlerDiv2">Id not in database!!!</div>
 
         <div id="map"></div> <br><br>
 

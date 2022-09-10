@@ -15,7 +15,7 @@ let oldIDDiv = document.getElementById("oldIDDiv");
 
 // declaration of event listener
 document.getElementById("changeMount").addEventListener("click", function () { ladePoi() });
-document.getElementById("SubmitButton").addEventListener("click", function () { getValues(); location.reload()});
+document.getElementById("SubmitButton").addEventListener("click", function () { getValues(), setTimeout(() => {  location.reload(); }, 500);});
 
 
 // fetch POIs

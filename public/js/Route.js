@@ -6,15 +6,19 @@ let click = 0; // only for counting if the marker where set once or not
 let coordinateslat;
 let coordinateslon;
 let directions;
-let coorlon; 
-let coorlat; 
+let coorlon;
+let coorlat;
 
-// declaration of event listener
+
 let submitBut = document.getElementById("SubmitButton")
 let submitButDiv = document.getElementById("SubmitButtonDiv")
 let table = document.getElementById("table");
 let mapDiv = document.getElementById("map");
-submitBut.addEventListener("click", function () { filltable(pois); submitButDiv.style.visibility = "hidden"; });
+let submitBut2 = document.getElementById("SubmitButton2")
+
+// declaration of event listener
+submitBut.addEventListener("click", function () { filltable(pois); });
+submitBut2.addEventListener("click", function () { destinationCoords(document.getElementById("IDDiv").value); });
 
 // fetch POIs
 fetch("/getPoi")
@@ -29,10 +33,10 @@ fetch("/getPoi")
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYndhZGFtc29uIiwiYSI6ImNqajZhNm1idDFzMjIza3A2Y3ZmdDV6YWYifQ.9NhptR7a9D0hzWXR51y_9w';
 var map = new mapboxgl.Map({
-  container: 'map',
-  style: 'mapbox://styles/mapbox/streets-v9',
-  center: [7.63, 51.96],
-  zoom: 4
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v9',
+    center: [7.63, 51.96],
+    zoom: 4
 });
 
 /**
@@ -59,7 +63,7 @@ function displayAllPOIs() {
                     coords.push([pois[i].geometry.coordinates[0][j][1], pois[i].geometry.coordinates[0][j][0]]);
                 }
                 //console.log(coords);
-                var polygon = new L.polygon(coords, {color: '#4496ee'})
+                var polygon = new L.polygon(coords, { color: '#4496ee' })
                 polygon.bindPopup("<table>Name: " + pois[i].properties.name + "<br>" +
                     "Altitude: " + pois[i].properties.altitude + "<br>" +
                     "Beschreibung: " + pois[i].properties.description + "<br>" +
@@ -95,6 +99,10 @@ function displayAllPOIs() {
 }
 
 function filltable(pois) {
+    document.getElementById("SubmitButton").style.visibility = "hidden";
+    document.getElementById("EingabeDiv").style.display = "block";
+    document.getElementById("SubmitButtonDiv2").style.display = "block";
+
     var actId = [];
     var rowCount = 0;
     //creates the Table with the pois
@@ -121,27 +129,27 @@ function filltable(pois) {
         document.getElementById("resultTable").appendChild(newRow);
         actId.push(pois[j].id);
     }
-
-    $("#resultTable tr").mouseenter(function () {
-        $(this).addClass('selected').siblings().removeClass('selected');
-        var hid = $(this).find('td:first').html();
-        highlightLayer(hid);
-    });
-    $("#resultTable tr").mouseleave(function () {
-        $(this).addClass('selected').siblings().removeClass('selected');
-        var hid = $(this).find('td:first').html();
-        resetLayer(hid);
-    });
-    $("#resultTable tr").click(function () {
-        $(this).addClass('selected').siblings().removeClass('selected');
-        var hid = $(this).find('td:first').html();
-        highlightLayer(hid);
-        destinationCoords(hid);
-        directionsAdden();
-        table.style.display = "none";
-    });
+    /**
+        $("#resultTable tr").mouseenter(function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var hid = $(this).find('td:first').html();
+            highlightLayer(hid);
+        });
+        $("#resultTable tr").mouseleave(function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var hid = $(this).find('td:first').html();
+            resetLayer(hid);
+        });
+        $("#resultTable tr").click(function () {
+            $(this).addClass('selected').siblings().removeClass('selected');
+            var hid = $(this).find('td:first').html();
+            highlightLayer(hid);
+            destinationCoords(hid);
+            directionsAdden();
+            table.style.display = "none";
+        });*/
 }
-
+/** 
 function highlightLayer(hid) {
     for (var i = 0; i < allPOIs.length; i++) {
         if (hid === pois[i].id) {
@@ -170,54 +178,70 @@ function resetLayer(id) {
             }
         }
     }
-}
+}*/
 
 /**
  * Returns the Geolocation of the browser
  * @returns {coordinates}
  */
- setTimeout(function() {
+setTimeout(function () {
     if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(showPosition);
+        navigator.geolocation.watchPosition(showPosition);
     }
-  }, 100)
-  
-  /**
-   * shows the position of the browser 
-   * @param {coordinates} position 
-   */
-  function showPosition(position) {
+}, 100)
+/**
+* shows the position of the browser 
+* @param {coordinates} position 
+*/
+function showPosition(position) {
     coordinateslat = position.coords.latitude
     coordinateslon = position.coords.longitude;
-  };
+    console.log(coordinateslat, coordinateslon);
+};
 
-  function destinationCoords(hid){
-    for (var i = 0; i < pois.length; i++) {
-        if (hid === pois[i].id) {
-            if (pois[i].geometry.type === "Polygon") {
-                coorlat = pois[i].geometry.coordinates[0][0][1];
-                coorlon = pois[i].geometry.coordinates[0][0][0];
-            }
-            if (pois[i].geometry.type === "Point") {
-                coorlat = pois[i].geometry.coordinates[1];
-                coorlon = pois[i].geometry.coordinates[0];
+
+function destinationCoords(hid) {
+    document.getElementById("FehlerDiv").style.display = "none";
+    document.getElementById("FehlerDiv2").style.display = "none";
+    var treffer = false;
+    if (hid === "") {
+        console.log("Nicht alle Felder wurden ausgefüllt")
+        document.getElementById("FehlerDiv").style.display = "block";
+    }
+    else {
+        for (var i = 0; i < pois.length; i++) {
+            if (hid === pois[i].id) {
+                treffer = true;
+                if (pois[i].geometry.type === "Polygon") {
+                    coorlat = pois[i].geometry.coordinates[0][0][1];
+                    coorlon = pois[i].geometry.coordinates[0][0][0];
+                }
+                if (pois[i].geometry.type === "Point") {
+                    coorlat = pois[i].geometry.coordinates[1];
+                    coorlon = pois[i].geometry.coordinates[0];
+                }
             }
         }
+        if (!treffer) { document.getElementById("FehlerDiv2").style.display = "block"; }
+        else {
+            console.log(coorlat, coorlon);
+            directionsAdden();
+        }
     }
-  }
-    
-  
+}
+
+
 function directionsAdden() {
-    if(click === 0){
+    if (click === 0) {
         directions = new MapboxDirections({
             accessToken: mapboxgl.accessToken
-          });
+        });
         map.addControl(directions, 'top-left');
         directions.setOrigin(coordinateslon + "," + coordinateslat);
         directions.setDestination(coorlon + ',' + coorlat);
         click++;
     }
-    else{
+    else {
         clearMap()
     }
-  };
+};
