@@ -23,3 +23,19 @@ p{
     font-size: large;
     color: rgb(49, 46, 46); 
 }
+
+#header-nav{
+    background-color: rgb(49, 46, 46);
+    height: 57px;
+}
+#a-nav{
+    padding-top: 0px;
+    color: white;
+}
+#a-nav:hover{
+    background-color: yellowgreen;
+    color: rgb(49, 46, 46);
+}
+.active {
+    background-color: yellowgreen;
+  }
