@@ -2,14 +2,14 @@
 version: '3'
 services: 
     appservice: 
-        container_name: AppLenaMaxi
+        container_name: AppFelixMaxi
         #build: .
-        image: 2001310/abgabe7lenamaxi
+        image: felioxx/finaleabgabefelixmaxi
         build:
           context: .
           dockerfile: ./Dockerfile
         ports: 
-            - '4000:3000'
+            - '3000:3000'
         depends_on: 
             - mongoservice
     mongoservice:

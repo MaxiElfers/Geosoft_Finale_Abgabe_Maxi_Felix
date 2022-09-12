@@ -12,8 +12,7 @@ let gezeichnetesPolygon = [];
 let newType;
 
 //list of all EventListeners
-
-document.getElementById("SubmitButton").addEventListener("click", function () { getValues(), window.location = "AddedPoi.html";});
+document.getElementById("SubmitButton").addEventListener("click", function () { getValues(), setTimeout(() => {  window.location = "AddedPoi.html"; }, 500);});
 
 
 // setting up and working with the map
