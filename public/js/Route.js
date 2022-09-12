@@ -31,6 +31,7 @@ fetch("/getPoi")
     })
     .catch(error => console.log(error))
 
+// setting up the mapbox map
 mapboxgl.accessToken = 'pk.eyJ1IjoiYndhZGFtc29uIiwiYSI6ImNqajZhNm1idDFzMjIza3A2Y3ZmdDV6YWYifQ.9NhptR7a9D0hzWXR51y_9w';
 var map = new mapboxgl.Map({
     container: 'map',
@@ -44,19 +45,8 @@ var map = new mapboxgl.Map({
  */
 function displayAllPOIs() {
     if (click === 0) {
-
-        // ein Versuch, die Pois als Layer der Karte hinzuzufügen
-        /**map.addSource('berge', 
-            {'type': 'geojson',
-            'data': {
-                'type': 'FeatureCollection',
-                'features': [pois]}});
-        map.addLayer({'id': 'berge',
-        'type': 'symbol','source': 'berge'});*/
-
-
         for (var i = 0; i < pois.length; i++) {
-            if (pois[i].geometry.type === "Polygon") {
+            if (pois[i].geometry.type === "Polygon") { // falls Polygon
                 //console.log(pois[i].geometry.coordinates[0]);
                 var coords = [];
                 for (var j = 0; j < pois[i].geometry.coordinates[0].length; j++) {
@@ -71,7 +61,7 @@ function displayAllPOIs() {
                 allPOIs[i] = polygon;
                 polygon.addTo(map);
             }
-            if (pois[i].geometry.type === "Point") {
+            if (pois[i].geometry.type === "Point") { // falls Punkt
                 //console.log([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]]);
                 const el = document.createElement('div');
                 el.className = 'marker';
@@ -98,6 +88,10 @@ function displayAllPOIs() {
     }
 }
 
+/**
+ * Füllt die Tabelle mit Werten
+ * @param {Array} pois 
+ */
 function filltable(pois) {
     document.getElementById("SubmitButton").style.visibility = "hidden";
     //document.getElementById("EingabeDiv").style.display = "block";
@@ -129,7 +123,7 @@ function filltable(pois) {
         document.getElementById("resultTable").appendChild(newRow);
         actId.push(pois[j].id);
     }
-    
+        // zum Highlighten der Tabelleninhalte beim Hovern
         $("#resultTable tr").mouseenter(function () {
             $(this).addClass('selected').siblings().removeClass('selected');
             var hid = $(this).find('td:first').html();
@@ -140,6 +134,7 @@ function filltable(pois) {
             var hid = $(this).find('td:first').html();
             resetLayer(hid);
         });
+        // zum Berechnen der Route bei Klick auf den Tabelleninhalt
         $("#resultTable tr").click(function () {
             $(this).addClass('selected').siblings().removeClass('selected');
             var hid = $(this).find('td:first').html();
@@ -150,6 +145,10 @@ function filltable(pois) {
         });
 }
 
+/**
+ * Highlightet Layer nach ihrer id
+ * @param {number} hid id
+ */
 function highlightLayer(hid) {
     for (var i = 0; i < allPOIs.length; i++) {
         if (hid === pois[i].id) {
@@ -165,6 +164,10 @@ function highlightLayer(hid) {
     }
 }
 
+/**
+ * Setzt das Highlight des Layers mit der angegebenen id zurück
+ * @param {number} id 
+ */
 function resetLayer(id) {
     for (var i = 0; i < allPOIs.length; i++) {
         if (id === pois[i].id) {
@@ -199,8 +202,12 @@ function showPosition(position) {
     console.log(coordinateslat, coordinateslon);
 };
 
-
+/**
+ * Setzt die Zielkoordinaten auf den Berg mit der angegebenen id
+ * @param {number} hid id
+ */
 function destinationCoords(hid) {
+    // falls textuelle Eingabe der id
     /**document.getElementById("FehlerDiv").style.display = "none";
     document.getElementById("FehlerDiv2").style.display = "none";
     var treffer = false;
@@ -230,7 +237,9 @@ function destinationCoords(hid) {
     }*/
 }
 
-
+/**
+ * Zeigt Start- und Zielpunkt auf der Map an
+ */
 function directionsAdden() {
     if (click === 0) {
         directions = new MapboxDirections({
@@ -242,6 +251,5 @@ function directionsAdden() {
         click++;
     }
     else {
-        //clearMap();
     }
 };

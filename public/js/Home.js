@@ -36,13 +36,14 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 map.dragging.disable();
+
 /**
- * Displays all stops on the map and saves the marker in an Array
+ * Displays all mountains on the map and in the table and saves the marker/polygons in an Array (allPOIs)
  */
 setTimeout(function displayAllPOIs(){
     if(click === 0){
         for (var i = 0; i < pois.length; i++) {
-            if (pois[i].geometry.type === "Polygon") {
+            if (pois[i].geometry.type === "Polygon") { // falls Polygon
                 //console.log(pois[i].geometry.coordinates[0]);
                 var coords = [];
                 for (var j = 0; j < pois[i].geometry.coordinates[0].length; j++) {
@@ -57,7 +58,7 @@ setTimeout(function displayAllPOIs(){
                 allPOIs[i] = polygon;
                 polygon.addTo(map);
             }
-            if (pois[i].geometry.type === "Point") {
+            if (pois[i].geometry.type === "Point") { // falls Punkt
                 //console.log([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]]);
                 var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
                 marker.bindPopup("Name: " + pois[i].properties.name + "<br>" +

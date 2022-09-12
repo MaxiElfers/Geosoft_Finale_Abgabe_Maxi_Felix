@@ -36,12 +36,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 /**
- * Displays all stops on the map and saves the marker in an Array
+ * Displays all mountains on the map and in the table and saves the marker/polygons in an Array (allPOIs)
  */
 setTimeout(function displayPOIsMap() {
     if (click === 0) {
         for (var i = 0; i < pois.length; i++) {
-            if (pois[i].geometry.type === "Polygon") {
+            if (pois[i].geometry.type === "Polygon") { // falls Polygon
                 //console.log(pois[i].geometry.coordinates[0]);
                 var coords = [];
                 for (var j = 0; j < pois[i].geometry.coordinates[0].length; j++) {
@@ -54,7 +54,7 @@ setTimeout(function displayPOIsMap() {
                 allPOIs[i] = polygon;
                 polygon.addTo(map);
             }
-            if (pois[i].geometry.type === "Point") {
+            if (pois[i].geometry.type === "Point") { // falls Punkt
                 //console.log([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]]);
                 var marker = new L.marker([pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]])
                 marker.bindPopup(pois[i].properties.name + "<br>" +
@@ -109,6 +109,7 @@ setTimeout(function displayPOIsMap() {
         actId.push(pois[j].id);
     }
 
+    // Funktionen zum Highlighten der gehoverten oder geklickten Layer hinzufügen
     $("#resultTable tr").mouseenter(function () {
         $(this).addClass('selected').siblings().removeClass('selected');
         var hid = $(this).find('td:first').html();
@@ -207,6 +208,7 @@ function displayPoi() {
             document.getElementById("textfeld").value = JSON.stringify(geojson);
         }
     }
+    // falls die id nicht in der Datenbank enthalten ist
     if (!treffer) { document.getElementById("FehlerDiv").style.display = "block"; }
 }
 
@@ -224,7 +226,6 @@ function getValues() {
         console.log("Invalid JSON string")
         document.getElementById("FehlerDiv2").style.display = "block";
     }
-
     document.getElementById("geojsontextarea").value = document.getElementById("textfeld").value;
     //console.log(document.getElementById("geojsontextarea").value);
     var gezeichnetesGeojson = document.getElementById("geojsontextarea").value;
@@ -259,6 +260,7 @@ function getValues() {
       anfrage = "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + helpNewURL + "&format=json&origin=*";
       console.log(anfrage);
 
+      // falls ja, starte Anfrage an die Wikipedia Api
       fetch(anfrage)
       .then(response => {
         console.log(response);
@@ -273,6 +275,7 @@ function getValues() {
       .catch(error => console.log(error))
 
         }
+        // falls nein, setze Defaultwert ein
         else { snippet = "keine Information vorhanden" 
         dataErstellen();}
 
@@ -307,6 +310,7 @@ function getValues() {
 
 /**
  * Creates an fetch to post the new Marker
+ * @param doc zu postende Daten
  */
 function postMarker(doc) {
     if (count === 0) {
@@ -368,6 +372,10 @@ function showPosition(position) {
         })
 }
 
+/**
+ * Higlights the Layer with the given ID
+ * @param {number} id 
+ */
 function highlightLayer(id) {
     for (var i = 0; i < allPOIs.length; i++) {
         if (id === pois[i].id) {
@@ -383,6 +391,11 @@ function highlightLayer(id) {
     }
 }
 
+/**
+ * Resets the higlight from the layer with
+ * the given ID
+ * @param {number} id 
+ */
 function resetLayer(id) {
     for (var i = 0; i < allPOIs.length; i++) {
         if (id === pois[i].id) {

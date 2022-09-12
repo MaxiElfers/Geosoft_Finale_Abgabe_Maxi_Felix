@@ -28,6 +28,7 @@ var greenIcon = new L.Icon({
   popupAnchor: [1, -34],
   shadowSize: [41, 41]
 });
+// Leaflet draw
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
 var drawControl = new L.Control.Draw({
@@ -44,10 +45,6 @@ var drawControl = new L.Control.Draw({
 });
 map.addControl(drawControl);
 
-/**
- * handles the draw event for a marker
- */
-
 // gezeichnetes Polygon initialisieren
 map.on(L.Draw.Event.CREATED, function (event) {
   var layer = event.layer;
@@ -58,6 +55,9 @@ map.on("draw:edited", function (event) {
   updateText();
 });
 
+/**
+ * Liest die Koordinaten aus dem Textfeld ein
+ */
 function updateText() {
   // to convert L.featureGroup to GeoJSON FeatureCollection
   document.getElementById("geojsontextarea").value = JSON.stringify(drawnItems.toGeoJSON());
@@ -76,7 +76,6 @@ function updateText() {
  */
 function getValues() {
   // potenzielle Werte aus dem Textfeld ins Geojson übernehmen
-  //console.log(document.getElementById("textfeld").value);
   if(document.getElementById("geojsontextarea").value === "" && document.getElementById("textfeld").value !== "") {
     try {
       object = JSON.parse(document.getElementById("textfeld").value);
@@ -86,7 +85,6 @@ function getValues() {
         console.log("Invalid JSON string")
         document.getElementById("FehlerDiv2").style.display = "block";
       }
-  
     document.getElementById("geojsontextarea").value = document.getElementById("textfeld").value;
     //console.log(document.getElementById("geojsontextarea").value);
     var gezeichnetesGeojson = document.getElementById("geojsontextarea").value;
@@ -101,6 +99,7 @@ function getValues() {
   }
 
   //console.log(gezeichnetesPolygon);
+  //Werte einlesen und prüfen, dass alle Eingaben gemacht wurden
   newName = document.getElementById("NameDiv").value;
   newAltitude = document.getElementById("AltitudeDiv").value;
   newURL = document.getElementById("URLDiv").value;
@@ -122,6 +121,7 @@ function getValues() {
       console.log(anfrage);
 
 
+      // falls ja, Anfrage an die Wikipedia Api stellen
       fetch(anfrage)
         .then(response => {
           console.log(response);
@@ -135,15 +135,12 @@ function getValues() {
         })
         .catch(error => console.log(error))
 
-      // Erstellen eines XHR-Objektes für die Anfrage des Wikipedia Artikels
-      /*var xhr = new XMLHttpRequest()
+      // Anfrage mit XMLHttpRequest hat nicht funktioniert
+      /** Erstellen eines XHR-Objektes für die Anfrage des Wikipedia Artikels
+      var xhr = new XMLHttpRequest()
       xhr.open("GET", anfrage, true);
       xhr.send();
       console.log(xhr);
-
-      /**
-       * Callback Funktion zum Erstellen der Bushaltestellen-Objekte und der Berechnung der Entfernungen dorthin
-       
       xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
           //console.log(this.responseText);
@@ -172,6 +169,7 @@ function getValues() {
       xhr.onreadystatechange = statechangecallback;*/
     }
     else { 
+      //falls nein, Defaultwert einsetzen
       snippet = "keine Information vorhanden";
       dataErstellen();
    }
@@ -203,7 +201,8 @@ function dataErstellen(){
 }
 
 /**
- * Creates an fetch to post the new Marker
+ * Creates a fetch to post the new Marker
+ * @param doc zu postende Daten
  */
 function postMarker(doc) {
   if (count === 0) {
