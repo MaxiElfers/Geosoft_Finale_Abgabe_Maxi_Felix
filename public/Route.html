@@ -25,22 +25,61 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.js'></script>
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v3.1.3/mapbox-gl-directions.css' type='text/css' />
      <!-- Bootstrap CSS -->
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
 </head>
 
 <body>
-    <ul>
-        <li><a href="http://localhost:3000/">Home</a></li>
-        <li><a href="http://localhost:3000/add">Add</a></li>
-        <li><a class="active" href="http://localhost:3000/route">Route</a></li>
-        <li><a href="http://localhost:3000/delete">Delete</a></li>
-        <li><a href="http://localhost:3000/change">Change</a></li>
-        <li><a href="http://localhost:3000/impressum">Impressum</a></li>
-    </ul>
+    <header>
+        <nav id="header-nav" class="navbar navbar-default ">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapsable-nav" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div id="collapsable-nav" class="pull-right collapse navbar-collapse">
+                        <ul id="nav-list" class="nav navbar-nav navbar-right">
+                            <li>
+                                <a id="a-nav" href="Home.html">
+                                    <br class="hidden-xs hidden-sm">Home</a>
+                            </li>
+                            <li>
+                                <a id="a-nav" href="Add.html">
+                                    <br class="hidden-xs hidden-sm">Add</a>
+                            </li>
+                            <li>
+                                <a id="a-nav" class="active" href="Route.html">
+                                    <br class="hidden-xs hidden-sm">Route</a>
+                            </li>
+                            <li>
+                                <a id="a-nav" href="Change.html">
+                                    <br class="hidden-xs hidden-sm">Change</a>
+                            </li>
+                            <li>
+                                <a id="a-nav" href="Delete.html">
+                                    <br class="hidden-xs hidden-sm">Delete</a>
+                            </li>
+                            <li>
+                                <a id="a-nav" href="Impressum.html">
+                                    <br class="hidden-xs hidden-sm">Impressum</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-    <img id="IFGIimg"
-        src="https://digitalautonomy.net/fileadmin/_processed_/d/4/csm_1623743845_DAH_Logo_ifgi_long_2b4c356743.png"></img>
+                
+            </div>
+        </nav>
+        <img class="hidden-xs hidden-sm" id="IFGIimg" src="https://digitalautonomy.net/fileadmin/_processed_/d/4/csm_1623743845_DAH_Logo_ifgi_long_2b4c356743.png"></img>
+    </header>
+
+
     <h1>Here you can see possible routes from your location to the mountains.</h1>
     <p>Click on the mountain in the table you want to route to.</p>
 
@@ -71,7 +110,8 @@
     </div>
 
     <script src=js/Route.js></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
 
 </html>
