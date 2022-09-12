@@ -14,11 +14,11 @@ let submitBut = document.getElementById("SubmitButton")
 let submitButDiv = document.getElementById("SubmitButtonDiv")
 let table = document.getElementById("table");
 let mapDiv = document.getElementById("map");
-let submitBut2 = document.getElementById("SubmitButton2")
+//let submitBut2 = document.getElementById("SubmitButton2")
 
 // declaration of event listener
 submitBut.addEventListener("click", function () { filltable(pois); });
-submitBut2.addEventListener("click", function () { destinationCoords(document.getElementById("IDDiv").value); });
+//submitBut2.addEventListener("click", function () { destinationCoords(document.getElementById("IDDiv").value); });
 
 // fetch POIs
 fetch("/getPoi")
@@ -100,8 +100,8 @@ function displayAllPOIs() {
 
 function filltable(pois) {
     document.getElementById("SubmitButton").style.visibility = "hidden";
-    document.getElementById("EingabeDiv").style.display = "block";
-    document.getElementById("SubmitButtonDiv2").style.display = "block";
+    //document.getElementById("EingabeDiv").style.display = "block";
+    //document.getElementById("SubmitButtonDiv2").style.display = "block";
 
     var actId = [];
     var rowCount = 0;
@@ -129,7 +129,7 @@ function filltable(pois) {
         document.getElementById("resultTable").appendChild(newRow);
         actId.push(pois[j].id);
     }
-    /**
+    
         $("#resultTable tr").mouseenter(function () {
             $(this).addClass('selected').siblings().removeClass('selected');
             var hid = $(this).find('td:first').html();
@@ -147,9 +147,9 @@ function filltable(pois) {
             destinationCoords(hid);
             directionsAdden();
             table.style.display = "none";
-        });*/
+        });
 }
-/** 
+
 function highlightLayer(hid) {
     for (var i = 0; i < allPOIs.length; i++) {
         if (hid === pois[i].id) {
@@ -178,7 +178,7 @@ function resetLayer(id) {
             }
         }
     }
-}*/
+}
 
 /**
  * Returns the Geolocation of the browser
@@ -201,14 +201,14 @@ function showPosition(position) {
 
 
 function destinationCoords(hid) {
-    document.getElementById("FehlerDiv").style.display = "none";
+    /**document.getElementById("FehlerDiv").style.display = "none";
     document.getElementById("FehlerDiv2").style.display = "none";
     var treffer = false;
     if (hid === "") {
         console.log("Nicht alle Felder wurden ausgefüllt")
         document.getElementById("FehlerDiv").style.display = "block";
     }
-    else {
+    else {*/
         for (var i = 0; i < pois.length; i++) {
             if (hid === pois[i].id) {
                 treffer = true;
@@ -222,12 +222,12 @@ function destinationCoords(hid) {
                 }
             }
         }
-        if (!treffer) { document.getElementById("FehlerDiv2").style.display = "block"; }
+        /**if (!treffer) { document.getElementById("FehlerDiv2").style.display = "block"; }
         else {
             console.log(coorlat, coorlon);
             directionsAdden();
         }
-    }
+    }*/
 }
 
 
@@ -242,6 +242,6 @@ function directionsAdden() {
         click++;
     }
     else {
-        clearMap()
+        //clearMap();
     }
 };

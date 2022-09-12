@@ -25,9 +25,10 @@ h1{
 #SubmitButtonDiv{
     text-align: center;
 }
+/*
 #EingabeDiv{
     display: none;
-}
+}*/
 #map { 
     height: 550px;
     width: 80%;
@@ -50,7 +51,7 @@ table, th, td {
     background-color: yellowgreen;
     color: #FFF;
 }
-
+/*
 #EingabeDiv{
     font-size: large;
     color: rgb(49, 46, 46);
@@ -80,3 +81,4 @@ input{
     display: none;
     text-align: center;
 }
+*/
