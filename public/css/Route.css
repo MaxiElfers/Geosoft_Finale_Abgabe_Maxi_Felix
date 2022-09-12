@@ -96,3 +96,21 @@ section{
 .container-main h1{
     color: yellowgreen;
 }
+
+@media(max-width: 798px){
+    tr{
+       font-size: 40%;
+    }
+   }
+
+@media (min-width: 799px) and (max-width: 1049px){
+    tr{
+       font-size: 60%;
+    }
+   }
+
+@media (min-width: 1050px) and (max-width: 1315px){
+ tr{
+    font-size: 80%;
+ }
+}

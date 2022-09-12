@@ -66,6 +66,7 @@ input{
 section{
     font-size: large;
     color: white;
+    text-align: center;
 }
 #footer{
     background-color: rgb(49, 46, 46);
