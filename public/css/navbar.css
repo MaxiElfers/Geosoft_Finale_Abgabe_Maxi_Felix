@@ -14,3 +14,16 @@
 .active {
   background-color: yellowgreen;
 }
+/* extra small devices */
+@media (max-width: 767px) {
+  #collapsable-nav{
+    background-color: rgb(49, 46, 46);
+  }
+ }
+
+/* small devices */
+@media (min-width: 768px) and (max-width: 991px) {
+  #a-nav{
+    padding-top: 20px;
+  }
+}
