@@ -1,19 +1,25 @@
 .button{
     background-color: yellowgreen;
     color:white;
+    border: none;
     text-align: center;
     padding: 15px 32px;
     cursor: pointer;
     font-size: large;
 }
-p{
-    color: rgb(49, 46, 46);
-    text-align: center;
-    font-size:x-large;
-}
 h1{
     color: yellowgreen;
     text-align: center;
+}
+#EingabeDiv{
+    font-size: large;
+    color: rgb(49, 46, 46);
+    text-align: center;
+}
+div{
+    text-align: center;
+    color: rgb(49, 46, 46);
+    font-size: large;
 }
 #IFGIimg{
     height: 100px;
@@ -22,50 +28,21 @@ h1{
     margin: 0px;
     position: absolute;
 }
-#SubmitButtonDiv{
+.container-main #SubmitButtonDiv{
     text-align: center;
+    margin: 10px;
 }
-/*
-#EingabeDiv{
-    display: none;
-}*/
 #map { 
-    height: 600px;
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
+    height: 400px;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
     margin-top: 15px; 
-}
-th{
-    background-color: #A9A9A9;
-    color: white;
-  }
-table, th, td {
-    padding: 10px;
-      border: 2px solid #A9A9A9;
-      border-color: solid black;
-      border-collapse: collapse;
-  }
-  td {border: 1px #DDD solid; padding: 5px; cursor: pointer;}
-.selected {
-    background-color: yellowgreen;
-    color: #FFF;
-}
-/*
-#EingabeDiv{
-    font-size: large;
-    color: rgb(49, 46, 46);
     text-align: center;
 }
 span.Eingabe{
     color: yellowgreen;
     font-size: 1.5em;
-}
-input{
-    margin: 10px;
-    background-color: yellowgreen;
-    color: white;
-    font-size: 2em;
 }
 #FehlerDiv{
     text-align: center;
@@ -77,11 +54,15 @@ input{
     color: red;
     display: none;
 }
-#SubmitButtonDiv2{
-    display: none;
-    text-align: center;
+input{
+    margin: 10px;
+    background-color: yellowgreen;
+    color: white;
+    font-size: 2em;
 }
-*/
+#geojsontextarea{
+    display: none;
+}
 section{
     font-size: large;
     color: white;

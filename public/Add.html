@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Maximilian Elfers">
     <meta name="description" content="This is a website for the tasks in Geosoftware 2022">
-    <link rel="stylesheet" href="css/AddStyle.css">
+    <link rel="stylesheet" href="css/Add.css">
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
         integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
@@ -76,14 +76,9 @@
         <img class="hidden-xs hidden-sm" id="IFGIimg" src="https://digitalautonomy.net/fileadmin/_processed_/d/4/csm_1623743845_DAH_Logo_ifgi_long_2b4c356743.png"></img>
     </header>
 
-
-    <h1>You can add mountians to the database.</h1>
-    <div>Draw into the map and add Name, Altitude, URL and Id, then submit. Or you can use the Geojson Textarea instead of drawing into the map. </div><br>
-
-
-
-
     <div class="container-main">
+        <h1>You can add mountians to the database.</h1>
+        <div>Draw into the map and add Name, Altitude, URL and Id, then submit. Or you can use the Geojson Textarea instead of drawing into the map. </div><br>
         <div id="map"></div>
         <!-- Einbinden des Textfeldes für das GeoJSON-->
         <div id="data">
@@ -113,11 +108,29 @@
     <div>Click here to read in your personal <span class="Eingabe">Browser-Coordinates</span>: <button onclick="getLocation()">Try It</button> </div>
 
     <div class="container-main">
-    <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Add mountain">
+        <div id="SubmitButtonDiv"><input class="button" id="SubmitButton" type="submit" value="Add mountain">
+        </div>
+        <div id="FehlerDiv">Sorry, you first need to fill out all inputs!!!</div>
+        <div id="FehlerDiv2">Invalid GeoJSON input!!!</div>
     </div>
-    <div id="FehlerDiv">Sorry, you first need to fill out all inputs!!!</div>
-    <div id="FehlerDiv2">Invalid GeoJSON input!!!</div>
-    </div>
+
+    <footer id="footer" class="panel-footer">
+        <div class="container">
+            <div class="row">
+                <section id="Werbung" class="col-sm-6">
+                    <span id="ueberschrift">Werbung</span><br>
+                    Diese Website ist ausschließlich finanziert durch Werbung<br>
+                    <div id="werbungergaenzung">Hier könnte ihre Werbung stehen</div>
+                </section>
+                <section id="Copyright" class="col-sm-6">
+                    <span id="ueberschrift">Copyright</span><br>
+                    Dies ist die Website von: </br>
+                    Maximilian Elfers & </br>
+                    Felix Disselkamp<br>
+                </section>
+            </div>
+        </div>
+    </footer>
 
     <script src=js/Add.js></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
