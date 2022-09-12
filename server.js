@@ -10,7 +10,7 @@ app.use(jsonParser);
 
 const { MongoClient } = require('mongodb')
 
-const url = 'mongodb://mongo:27017' // connection URL
+const url = 'mongodb://localhost:27017' // connection URL
    
 const client = new MongoClient(url) // mongodb client
    

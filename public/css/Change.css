@@ -19,3 +19,17 @@ table, th, td {
 #FehlerDiv1{
     display: none;
 }
+section{
+    font-size: large;
+    color: white;
+}
+#footer{
+    background-color: rgb(49, 46, 46);
+}
+#ueberschrift{
+    font-size: larger;
+    color: yellowgreen;
+}
+.container-main h1{
+    color: yellowgreen;
+}
