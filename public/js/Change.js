@@ -95,7 +95,7 @@ setTimeout(function displayPOIsMap() {
         var cel6 = document.createElement("td");
         cel1.innerHTML = pois[j].id;
         cel2.innerHTML = pois[j].properties.name;
-        cel3.innerHTML = pois[j].geometry.coordinates;
+        cel3.innerHTML = JSON.stringify(pois[j].geometry.coordinates);
         cel4.innerHTML = pois[j].properties.altitude;
         cel5.innerHTML = pois[j].properties.url;
         cel6.innerHTML = pois[j].properties.description;
