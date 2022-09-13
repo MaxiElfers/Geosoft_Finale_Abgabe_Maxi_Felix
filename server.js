@@ -18,17 +18,6 @@ const dbName = 'mydatabase' // database name
    
 const collectionName = 'pois' // collection name  
 
-/**
-//ab hier
-const cors = require('cors');
-app.use(cors());
-app.options('*', cors()); //put this before your route
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-})*/
-
 // rendering static files 
 app.use(express.static('public'))
 
